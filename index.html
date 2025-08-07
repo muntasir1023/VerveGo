@@ -16,7 +16,6 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-
     <style>
         /* Custom styles to apply the chosen fonts */
         body {
@@ -77,6 +76,7 @@
                     <a href="#how-it-works" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">How It Works</a>
                     <a href="#testimonials" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">Testimonials</a>
                     <a href="#pricing" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">Pricing</a>
+                    <a href="#apply" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">Apply</a>
                     <a href="#faq" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">FAQ</a>
                 </nav>
 
@@ -104,6 +104,7 @@
                 <a href="#how-it-works" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">How It Works</a>
                 <a href="#testimonials" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">Testimonials</a>
                 <a href="#pricing" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">Pricing</a>
+                <a href="#apply" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">Apply</a>
                 <a href="#faq" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">FAQ</a>
                 <div class="border-t border-gray-700 w-full my-4"></div>
                 <a href="vervego_agent_portal.html" class="text-gray-300 hover:text-white w-full text-center py-2">Agent Login</a>
@@ -213,19 +214,19 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Testimonial 1 -->
                     <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center">
-                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1888&auto=format&fit=crop" alt="Agent Emily R." class="w-20 h-20 rounded-full object-cover mb-4">
+                        <img src="https://img.freepik.com/premium-photo/american-female-real-estate-agent-suit_1106493-267934.jpg" alt="Agent Emily R." class="w-20 h-20 rounded-full object-cover mb-4">
                         <p class="text-gray-600 italic mb-4">"VerveGo has been a game-changer for my business. The technology is so easy to use, and the community support is amazing!"</p>
                         <p class="font-semibold text-teal-600">- Emily R., Travel Agent</p>
                     </div>
                     <!-- Testimonial 2 -->
                     <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop" alt="Agent Sarah L." class="w-20 h-20 rounded-full object-cover mb-4">
+                        <img src="https://img.freepik.com/premium-photo/american-female-real-estate-agent-suit_1106493-268147.jpg" alt="Agent Sarah L." class="w-20 h-20 rounded-full object-cover mb-4">
                         <p class="text-gray-600 italic mb-4">"The commission rates are the best I've seen, and the platform makes managing my clients a breeze."</p>
                         <p class="font-semibold text-teal-600">- Sarah L., Travel Expert</p>
                     </div>
-                    <!-- Testimonial 3 -->
+                    <!-- Testimonial 3 (Image Updated) -->
                     <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center">
-                        <img src="https://images.unsplash.com/photo-1596815967000-f9252c80386a?q=80&w=1888&auto=format&fit=crop" alt="Agent Mark T." class="w-20 h-20 rounded-full object-cover mb-4">
+                        <img src="https://img.freepik.com/free-photo/young-successful-businessman-posing-with-crossed-arms_176420-1149.jpg?semt=ais_hybrid&w=740&q=80" alt="Agent Mark T." class="w-20 h-20 rounded-full object-cover mb-4">
                         <p class="text-gray-600 italic mb-4">"I love the training and resources provided. I feel confident and supported every step of the way."</p>
                         <p class="font-semibold text-teal-600">- Mark T., Independent Agent</p>
                     </div>
@@ -376,12 +377,57 @@
 
         <!-- Apply Now Section -->
         <section id="apply" class="page-section py-20 px-6 bg-gray-900 text-white text-center">
-            <div class="container mx-auto">
+            <div class="container mx-auto max-w-3xl">
                 <h2 class="text-4xl font-bold font-poppins mb-4">Ready to Start?</h2>
                 <p class="text-lg mb-8 max-w-2xl mx-auto text-gray-300">
                     Join the VerveGo family and turn your passion for travel into a rewarding career.
                 </p>
-                <a href="#apply" class="bg-teal-500 text-white font-semibold px-8 py-4 rounded-full text-lg hover:bg-teal-600 transition-all shadow-lg">Apply Now</a>
+
+                <!-- Application Form Box -->
+                <div id="application-form-box" class="bg-gray-800 rounded-xl shadow-2xl p-8 md:p-12 text-left mb-8">
+                    <h3 class="text-2xl font-semibold font-poppins text-teal-400 mb-6 text-center">Agency Application</h3>
+                    <form id="agency-application-form" class="space-y-6">
+                        <div>
+                            <label for="agencyName" class="block text-sm font-medium text-gray-400">Agency Name</label>
+                            <input type="text" id="agencyName" name="agencyName" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="e.g., Global Adventures Inc." required>
+                        </div>
+                        <div>
+                            <label for="contactName" class="block text-sm font-medium text-gray-400">Contact Person Name</label>
+                            <input type="text" id="contactName" name="contactName" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="e.g., Jane Doe" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-400">Email Address</label>
+                            <input type="email" id="email" name="email" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="e.g., jane.doe@example.com" required>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-400">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="e.g., (123) 456-7890">
+                        </div>
+                        <div>
+                            <label for="numAgents" class="block text-sm font-medium text-gray-400">Number of Agents</label>
+                            <select id="numAgents" name="numAgents" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" required>
+                                <option value="" disabled selected>Select number of agents</option>
+                                <option value="1-5">1-5</option>
+                                <option value="6-20">6-20</option>
+                                <option value="21-50">21-50</option>
+                                <option value="50+">50+</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-400">Tell Us About Your Agency</label>
+                            <textarea id="message" name="message" rows="4" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="Describe your agency, your goals, and why you'd like to join VerveGo."></textarea>
+                        </div>
+                        <div class="flex justify-center mt-8">
+                            <button type="submit" class="bg-teal-500 text-white font-semibold px-8 py-4 rounded-full text-lg hover:bg-teal-600 transition-all shadow-lg w-full sm:w-auto">
+                                Apply Now
+                            </button>
+                        </div>
+                    </form>
+                    <!-- Submission Message -->
+                    <div id="submission-message" class="hidden mt-6 bg-teal-500 text-white p-4 rounded-lg text-center font-semibold">
+                        Thank you for your application! We will be in touch shortly.
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -561,7 +607,30 @@
         closeModalButton.addEventListener('click', closePrivacyModal);
         closeModalButton2.addEventListener('click', closePrivacyModal);
         privacyModal.addEventListener('click', (e) => { if (e.target === privacyModal) closePrivacyModal(); });
+        
+        // Application Form Logic
+        const form = document.getElementById('agency-application-form');
+        const formBox = document.getElementById('application-form-box');
+        const submissionMessage = document.getElementById('submission-message');
+
+        if (form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // In a real application, you would send this data to a server.
+                // For this example, we'll just show a success message.
+                console.log('Form Submitted!');
+                // Hide the form and show the success message
+                form.classList.add('hidden');
+                submissionMessage.classList.remove('hidden');
+
+                // Optional: Reset the form after a short delay
+                setTimeout(() => {
+                    form.reset();
+                    form.classList.remove('hidden');
+                    submissionMessage.classList.add('hidden');
+                }, 5000); // Hide message after 5 seconds
+            });
+        }
     </script>
 </body>
 </html>
-
