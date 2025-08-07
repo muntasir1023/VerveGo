@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerveGo Agent Portal</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        h1, h2, h3, h4, h5, h6, .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Hide scrollbar for webkit browsers */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        /* Table hover effect */
+        .sortable-table tbody tr {
+            transition: background-color 0.2s ease-in-out;
+        }
+        .sortable-table tbody tr:hover {
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        /* Sortable header styles */
+        .sortable-header {
+            cursor: pointer;
+            user-select: none;
+        }
+        /* New client card animation */
+        .client-card-enter {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        }
+        .client-card-enter-active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        /* Toast Notification */
+        .toast {
+            transition: all 0.5s ease-in-out;
+        }
+        .toast-enter {
+            opacity: 0;
+            transform: translateY(100%);
+        }
+        .toast-leave {
+            opacity: 0;
+            transform: translateY(100%);
+        }
+        /* Element removal animation */
+        .element-leave-active {
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        /* New booking row animation */
+        .booking-row-enter {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        }
+        .booking-row-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <!-- This container will toggle between the Login Page and the Dashboard -->
+    <div id="app-container">
+
+        <!-- =================================================================== -->
+        <!-- LOGIN PAGE -->
+        <!-- =================================================================== -->
+        <div id="login-page">
+            <div class="min-h-screen flex items-center justify-center bg-gray-900">
+                <div class="w-full max-w-md p-8 space-y-8 bg-gray-800 rounded-2xl shadow-2xl">
+                    <div class="text-center">
+                        <a href="index.html" class="inline-block text-3xl font-bold text-white font-poppins">
+                            Verve<span class="text-teal-500">Go</span>
+                        </a>
+                        <p class="mt-2 text-gray-400">Agent Portal Login</p>
+                    </div>
+                    <form class="space-y-6" onsubmit="event.preventDefault(); showDashboard();">
+                        <div>
+                            <label for="email" class="block text-sm font-semibold text-gray-300 mb-2">Email Address</label>
+                            <input type="email" id="email" name="email" required class="w-full bg-gray-700 border-gray-600 text-white rounded-lg p-3 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition" placeholder="agent@vervego.com" value="agent@vervego.com">
+                        </div>
+                        <div>
+                            <label for="password" class="block text-sm font-semibold text-gray-300 mb-2">Password</label>
+                            <div class="relative">
+                                <input type="password" id="password" name="password" required class="w-full bg-gray-700 border-gray-600 text-white rounded-lg p-3 pr-10 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition" placeholder="••••••••" value="password">
+                                <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-white">
+                                    <i data-lucide="eye" class="w-5 h-5" id="eye-icon"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <a href="#" class="text-sm text-teal-400 hover:underline">Forgot Password?</a>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full bg-teal-500 text-white font-semibold py-3 rounded-lg hover:bg-teal-600 transition-all">Sign In</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- AGENT DASHBOARD (Initially hidden) -->
+        <!-- =================================================================== -->
+        <div id="dashboard-page" class="hidden">
+            <div class="flex h-screen bg-slate-200">
+                <!-- Sidebar -->
+                <aside class="w-64 flex-shrink-0 bg-gray-800 text-gray-300 flex flex-col no-scrollbar">
+                    <!-- Logo -->
+                    <div class="h-16 flex items-center justify-center px-4 border-b border-gray-700 flex-shrink-0">
+                        <a href="index.html" class="text-2xl font-bold text-white font-poppins">
+                            Verve<span class="text-teal-500">Go</span>
+                        </a>
+                    </div>
+                    <!-- Navigation -->
+                    <nav class="flex-grow overflow-y-auto no-scrollbar">
+                        <ul class="py-4">
+                            <li class="px-4 py-2 nav-item">
+                                <a href="#" data-page="dashboard" class="nav-link flex items-center p-2 bg-gray-900 text-white rounded-lg">
+                                    <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
+                                    <span>Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="px-4 py-2 nav-item">
+                                <a href="#" data-page="bookings" class="nav-link flex items-center p-2 text-gray-400 rounded-lg hover:bg-gray-700 hover:text-white transition-colors">
+                                    <i data-lucide="calendar-check" class="w-5 h-5 mr-3"></i>
+                                    <span>My Bookings</span>
+                                </a>
+                            </li>
+                            <li class="px-4 py-2 nav-item">
+                                <a href="#" data-page="clients" class="nav-link flex items-center p-2 text-gray-400 rounded-lg hover:bg-gray-700 hover:text-white transition-colors">
+                                    <i data-lucide="users" class="w-5 h-5 mr-3"></i>
+                                    <span>Client Management</span>
+                                </a>
+                            </li>
+                            <li class="px-4 py-2 nav-item">
+                                <a href="#" data-page="reports" class="nav-link flex items-center p-2 text-gray-400 rounded-lg hover:bg-gray-700 hover:text-white transition-colors">
+                                    <i data-lucide="bar-chart-2" class="w-5 h-5 mr-3"></i>
+                                    <span>Reports</span>
+                                </a>
+                            </li>
+                            <li class="px-4 py-2 nav-item">
+                                <a href="#" data-page="community" class="nav-link flex items-center p-2 text-gray-400 rounded-lg hover:bg-gray-700 hover:text-white transition-colors">
+                                    <i data-lucide="message-circle" class="w-5 h-5 mr-3"></i>
+                                    <span>Community</span>
+                                </a>
+                            </li>
+                            <li class="px-4 py-2 nav-item">
+                                <a href="#" data-page="settings" class="nav-link flex items-center p-2 text-gray-400 rounded-lg hover:bg-gray-700 hover:text-white transition-colors">
+                                    <i data-lucide="settings" class="w-5 h-5 mr-3"></i>
+                                    <span>Settings</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- User/Logout Section -->
+                    <div class="mt-auto px-4 py-4 border-t border-gray-700 flex-shrink-0">
+                        <div class="flex items-center">
+                            <img id="user-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop" alt="User Avatar" class="w-10 h-10 rounded-full object-cover">
+                            <div class="ml-3">
+                                <p id="user-name" class="text-white font-semibold">Sarah L.</p>
+                                <p class="text-sm text-gray-400">Travel Expert</p>
+                            </div>
+                        </div>
+                        <button onclick="showLogin()" class="mt-4 w-full flex items-center justify-center p-2 text-gray-400 rounded-lg hover:bg-gray-700 hover:text-white transition-colors">
+                            <i data-lucide="log-out" class="w-5 h-5 mr-2"></i>
+                            <span>Sign Out</span>
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Main Content Area -->
+                <main class="flex-1 overflow-y-auto p-8 no-scrollbar relative">
+                    <!-- Top Bar -->
+                    <div class="flex items-center justify-between mb-8">
+                        <h1 class="text-3xl font-bold text-gray-900 font-poppins">Dashboard</h1>
+                        <div class="flex items-center space-x-4">
+                            <button id="add-booking-btn" class="bg-teal-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-teal-600 transition-colors flex items-center">
+                                <i data-lucide="plus" class="w-5 h-5 mr-2"></i>
+                                New Booking
+                            </button>
+                            <button class="text-gray-500 hover:text-gray-900 transition-colors">
+                                <i data-lucide="bell" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Page Content (Dashboard View) -->
+                    <div id="page-content">
+                        <!-- Dashboard Widgets -->
+                        <div id="dashboard-view" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <!-- Widget 1: Total Bookings -->
+                            <div class="bg-white p-6 rounded-xl shadow-lg flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-500 font-medium">Total Bookings</p>
+                                    <p class="text-3xl font-bold text-gray-900 mt-1">1,250</p>
+                                </div>
+                                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center">
+                                    <i data-lucide="plane" class="w-6 h-6"></i>
+                                </div>
+                            </div>
+                            <!-- Widget 2: Pending Bookings -->
+                            <div class="bg-white p-6 rounded-xl shadow-lg flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-500 font-medium">Pending Bookings</p>
+                                    <p class="text-3xl font-bold text-gray-900 mt-1">24</p>
+                                </div>
+                                <div class="w-12 h-12 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center">
+                                    <i data-lucide="clock" class="w-6 h-6"></i>
+                                </div>
+                            </div>
+                            <!-- Widget 3: Total Clients -->
+                            <div class="bg-white p-6 rounded-xl shadow-lg flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-500 font-medium">Total Clients</p>
+                                    <p class="text-3xl font-bold text-gray-900 mt-1">458</p>
+                                </div>
+                                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+                                    <i data-lucide="user-check" class="w-6 h-6"></i>
+                                </div>
+                            </div>
+                            <!-- Widget 4: Total Revenue -->
+                            <div class="bg-white p-6 rounded-xl shadow-lg flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-500 font-medium">Total Revenue</p>
+                                    <p class="text-3xl font-bold text-gray-900 mt-1">$250k+</p>
+                                </div>
+                                <div class="w-12 h-12 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center">
+                                    <i data-lucide="dollar-sign" class="w-6 h-6"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Charts and Recent Activity -->
+                        <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <!-- Recent Bookings Chart -->
+                            <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-lg">
+                                <h3 class="text-xl font-bold font-poppins text-gray-900 mb-4">Bookings Over Time</h3>
+                                <canvas id="bookingsChart" class="w-full"></canvas>
+                            </div>
+                            <!-- Recent Bookings List -->
+                            <div class="bg-white p-6 rounded-xl shadow-lg">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-xl font-bold font-poppins text-gray-900">Recent Activity</h3>
+                                    <a href="#" class="text-teal-500 hover:underline text-sm">View all</a>
+                                </div>
+                                <ul id="recent-activity-list" class="space-y-4">
+                                    <!-- List items will be populated by JS -->
+                                    <li class="flex items-start">
+                                        <div class="w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center flex-shrink-0">
+                                            <i data-lucide="plus" class="w-4 h-4"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-gray-900 font-medium">New booking created for John Doe.</p>
+                                            <p class="text-xs text-gray-500">Just now</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0">
+                                            <i data-lucide="user-plus" class="w-4 h-4"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-gray-900 font-medium">New client added: Jane Smith.</p>
+                                            <p class="text-xs text-gray-500">15 minutes ago</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center flex-shrink-0">
+                                            <i data-lucide="calendar-check" class="w-4 h-4"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-gray-900 font-medium">Booking for "Island Paradise" confirmed.</p>
+                                            <p class="text-xs text-gray-500">1 hour ago</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Clients and Bookings Sections (Initially hidden) -->
+                        <div id="bookings-view" class="mt-8 hidden">
+                            <!-- Content for My Bookings will go here -->
+                        </div>
+                        <div id="clients-view" class="mt-8 hidden">
+                            <!-- Content for Client Management will go here -->
+                        </div>
+                        <div id="reports-view" class="mt-8 hidden">
+                            <!-- Content for Reports will go here -->
+                        </div>
+                        <div id="community-view" class="mt-8 hidden">
+                            <!-- Content for Community will go here -->
+                        </div>
+                        <div id="settings-view" class="mt-8 hidden">
+                            <!-- Content for Settings will go here -->
+                        </div>
+
+                    </div>
+                    <!-- End of Page Content -->
+
+
+                    <!-- =================================================================== -->
+                    <!-- BOOKINGS MODAL -->
+                    <!-- =================================================================== -->
+                    <div id="booking-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none transition-all duration-300">
+                        <div class="modal-content bg-white p-8 rounded-lg max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative scale-95 transition-all duration-300">
+                            <button id="close-booking-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition-colors">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                            <h2 class="text-2xl font-bold font-poppins text-gray-900 mb-6">Create New Booking</h2>
+                            <form id="new-booking-form">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label for="client-name" class="block text-sm font-medium text-gray-700">Client Name</label>
+                                        <input type="text" id="client-name" name="client-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                                    </div>
+                                    <div>
+                                        <label for="tour-name" class="block text-sm font-medium text-gray-700">Tour Name</label>
+                                        <input type="text" id="tour-name" name="tour-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                                    </div>
+                                    <div>
+                                        <label for="booking-date" class="block text-sm font-medium text-gray-700">Booking Date</label>
+                                        <input type="date" id="booking-date" name="booking-date" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                                    </div>
+                                    <div>
+                                        <label for="booking-status" class="block text-sm font-medium text-gray-700">Status</label>
+                                        <select id="booking-status" name="booking-status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm">
+                                            <option value="pending">Pending</option>
+                                            <option value="confirmed">Confirmed</option>
+                                            <option value="canceled">Canceled</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mt-6 flex justify-end space-x-3">
+                                    <button type="button" id="cancel-booking-btn" class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors">
+                                        Create Booking
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-[2000] flex flex-col space-y-2"></div>
+    
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Application State
+        let currentView = 'dashboard';
+        const views = {
+            'dashboard': document.getElementById('dashboard-view'),
+            'bookings': document.getElementById('bookings-view'),
+            'clients': document.getElementById('clients-view'),
+            'reports': document.getElementById('reports-view'),
+            'community': document.getElementById('community-view'),
+            'settings': document.getElementById('settings-view'),
+        };
+
+        const navLinks = document.querySelectorAll('.nav-link');
+        const loginPage = document.getElementById('login-page');
+        const dashboardPage = document.getElementById('dashboard-page');
+        const loginForm = document.getElementById('login-form');
+
+        // Function to show a toast notification
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast bg-white p-4 rounded-lg shadow-xl flex items-center transform toast-enter`;
+            toast.innerHTML = `
+                <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center
+                    ${type === 'success' ? 'bg-green-100 text-green-600' :
+                      type === 'error' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}">
+                    <i data-lucide="${type === 'success' ? 'check' : type === 'error' ? 'x' : 'info'}" class="w-5 h-5"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="font-semibold text-gray-900">${message}</p>
+                </div>
+            `;
+            toastContainer.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => toast.classList.remove('toast-enter'), 100);
+
+            setTimeout(() => {
+                toast.classList.add('toast-leave');
+                toast.addEventListener('transitionend', () => toast.remove());
+            }, 5000);
+        }
+        
+        // Login/Logout and View Management
+        function showDashboard() {
+            loginPage.classList.add('hidden');
+            dashboardPage.classList.remove('hidden');
+            showView('dashboard');
+        }
+        function showLogin() {
+            loginPage.classList.remove('hidden');
+            dashboardPage.classList.add('hidden');
+        }
+
+        // Initially show the login page
+        showLogin();
+
+        function showView(viewName) {
+            // Hide all views
+            Object.values(views).forEach(view => view.classList.add('hidden'));
+            
+            // Show the requested view
+            const viewToShow = views[viewName];
+            if (viewToShow) {
+                viewToShow.classList.remove('hidden');
+                currentView = viewName;
+            }
+
+            // Update active link styling
+            navLinks.forEach(link => {
+                link.classList.remove('bg-gray-900', 'text-white');
+                link.classList.add('text-gray-400', 'hover:bg-gray-700', 'hover:text-white');
+                if (link.dataset.page === viewName) {
+                    link.classList.add('bg-gray-900', 'text-white');
+                    link.classList.remove('text-gray-400', 'hover:bg-gray-700', 'hover:text-white');
+                }
+            });
+        }
+
+        // Add click listeners to navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showView(e.currentTarget.dataset.page);
+            });
+        });
+
+        // Toggle password visibility
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eye-icon');
+
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            // Toggle eye icon
+            if (type === 'password') {
+                eyeIcon.setAttribute('data-lucide', 'eye');
+            } else {
+                eyeIcon.setAttribute('data-lucide', 'eye-off');
+            }
+            lucide.createIcons(); // Re-render the icon
+        });
+
+        // Initialize a dummy chart
+        function createBookingsChart() {
+            const ctx = document.getElementById('bookingsChart').getContext('2d');
+            const bookingsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                    datasets: [{
+                        label: 'New Bookings',
+                        data: [65, 59, 80, 81, 56, 55, 40],
+                        backgroundColor: 'rgba(20, 184, 166, 0.2)',
+                        borderColor: 'rgba(20, 184, 166, 1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        createBookingsChart();
+
+        // Booking Modal Logic
+        const addBookingBtn = document.getElementById('add-booking-btn');
+        const bookingModal = document.getElementById('booking-modal');
+        const newBookingForm = document.getElementById('new-booking-form');
+        const closeBookingModalBtn = document.getElementById('close-booking-modal-btn');
+        const cancelBookingBtn = document.getElementById('cancel-booking-btn');
+
+        function openBookingModal() {
+            bookingModal.classList.remove('opacity-0', 'pointer-events-none');
+            bookingModal.querySelector('.modal-content').classList.remove('scale-95');
+        }
+        function closeBookingModal() {
+            bookingModal.classList.add('opacity-0', 'pointer-events-none');
+            bookingModal.querySelector('.modal-content').classList.add('scale-95');
+        }
+
+        addBookingBtn.addEventListener('click', openBookingModal);
+        closeBookingModalBtn.addEventListener('click', closeBookingModal);
+        cancelBookingBtn.addEventListener('click', closeBookingModal);
+        bookingModal.addEventListener('click', (e) => {
+            if (e.target === bookingModal) {
+                closeBookingModal();
+            }
+        });
+
+        newBookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const clientName = document.getElementById('client-name').value;
+            showToast(`New booking for ${clientName} created!`, 'success');
+            closeBookingModal();
+        });
+
+        // Booking Actions Dropdown
+        document.addEventListener('click', (e) => {
+            const isActionsButton = e.target.closest('.booking-actions-btn');
+            const openMenu = document.querySelector('.booking-actions-menu:not(.hidden)');
+
+            // If there's an open menu and the click is outside, close it
+            if (openMenu && !isActionsButton) {
+                openMenu.classList.add('hidden');
+            }
+
+            if (isActionsButton) {
+                const menu = isActionsButton.nextElementSibling;
+                // If we clicked the button for the already open menu, it will be closed by the logic above.
+                // So we only need to worry about opening the new one.
+                if (menu.classList.contains('hidden')) {
+                    if(openMenu) openMenu.classList.add('hidden'); // Close any other open menu
+                    menu.classList.remove('hidden');
+                } else {
+                    menu.classList.add('hidden');
+                }
+            }
+        });
+
+        bookingsTableBody.addEventListener('click', (e) => {
+            const actionItem = e.target.closest('.booking-action-item');
+            if (actionItem) {
+                showToast(`${actionItem.textContent.trim()} action clicked. (Prototype)`, 'success');
+            }
+        });
+    </script>
+</body>
+</html>
