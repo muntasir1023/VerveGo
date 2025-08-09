@@ -79,6 +79,13 @@
         .suggestion-item:hover {
             background-color: #3f4757;
         }
+
+        /* Scrollable boxes for agencies and hotels */
+        .scrollable-box {
+            max-height: 250px; /* Adjust as needed */
+            overflow-y: auto;
+            padding-right: 10px; /* Space for scrollbar */
+        }
         
     </style>
 </head>
@@ -194,7 +201,7 @@
     <!-- Tour Details Modal -->
     <div id="tour-details-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center p-4 z-[1000] opacity-0 pointer-events-none transition-all duration-300">
         <div class="modal-content bg-white p-8 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative scale-95 transition-all duration-300">
-            <button id="close-tour-details-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition-colors">
+            <button id="close-tour-details-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition-colors" title="Close tour details">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
             <div id="modal-content-container">
@@ -206,35 +213,100 @@
     <!-- Hotel Booking Modal -->
     <div id="hotel-booking-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center p-4 z-[1001] opacity-0 pointer-events-none transition-all duration-300">
         <div class="modal-content bg-white p-8 rounded-xl max-w-md w-full shadow-2xl relative scale-95 transition-all duration-300">
-            <button id="close-hotel-booking-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition-colors">
+            <button id="close-hotel-booking-modal-btn" class="absolute top-4 right-4 text-gray-900 hover:text-gray-700 transition-colors" title="Close hotel booking modal">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
             <h3 class="text-2xl font-bold font-poppins text-gray-900 mb-6">Book Hotel</h3>
             <form id="hotel-booking-form" class="space-y-4">
                 <div>
-                    <label for="booking-hotel-name" class="block text-sm font-semibold text-gray-700">Hotel</label>
-                    <input type="text" id="booking-hotel-name" readonly class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm bg-gray-100 p-2">
+                    <label for="booking-hotel-name" class="block text-sm font-semibold text-gray-900">Hotel</label>
+                    <input type="text" id="booking-hotel-name" readonly class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm bg-gray-100 text-gray-900 p-2">
                 </div>
                 <div>
-                    <label for="booking-client-name" class="block text-sm font-semibold text-gray-700">Your Name</label>
-                    <input type="text" id="booking-client-name" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+                    <label for="booking-client-name" class="block text-sm font-semibold text-gray-900">Full Name</label>
+                    <input type="text" id="booking-client-name" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-gray-900 p-2">
+                </div>
+                <div>
+                    <label for="booking-client-email" class="block text-sm font-semibold text-gray-900">Email Address</label>
+                    <input type="email" id="booking-client-email" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-gray-900 p-2">
+                </div>
+                <div>
+                    <label for="booking-client-phone" class="block text-sm font-semibold text-gray-900">Phone Number</label>
+                    <input type="tel" id="booking-client-phone" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-gray-900 p-2">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label for="booking-check-in" class="block text-sm font-semibold text-gray-700">Check-in Date</label>
-                        <input type="date" id="booking-check-in" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+                        <label for="booking-check-in" class="block text-sm font-semibold text-gray-900">Check-in Date</label>
+                        <input type="date" id="booking-check-in" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-gray-900 p-2">
                     </div>
                     <div>
-                        <label for="booking-check-out" class="block text-sm font-semibold text-gray-700">Check-out Date</label>
-                        <input type="date" id="booking-check-out" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+                        <label for="booking-check-out" class="block text-sm font-semibold text-gray-900">Check-out Date</label>
+                        <input type="date" id="booking-check-out" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-gray-900 p-2">
                     </div>
                 </div>
                 <div>
-                    <label for="booking-guests" class="block text-sm font-semibold text-gray-700">Number of Guests</label>
-                    <input type="number" id="booking-guests" value="1" min="1" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 p-2">
+                    <label for="booking-guests" class="block text-sm font-semibold text-gray-900">Number of Guests</label>
+                    <input type="number" id="booking-guests" value="1" min="1" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-gray-900 p-2">
+                </div>
+                <div>
+                    <label for="booking-special-requests" class="block text-sm font-semibold text-gray-900">Special Requests</label>
+                    <textarea id="booking-special-requests" rows="3" class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-gray-900 p-2" placeholder="Any special requirements or requests..."></textarea>
                 </div>
                 <button type="submit" class="w-full bg-teal-500 text-white font-semibold py-3 rounded-lg hover:bg-teal-600 transition-colors">
                     Confirm Hotel Booking
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Agency Booking Modal -->
+    <div id="agency-booking-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center p-4 z-[1002] opacity-0 pointer-events-none transition-all duration-300">
+        <div class="modal-content bg-white p-8 rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl relative scale-95 transition-all duration-300">
+            <button id="close-agency-booking-modal-btn" class="absolute top-4 right-4 text-gray-900 hover:text-gray-700 transition-colors" title="Close agency booking modal">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <h3 class="text-2xl font-bold font-poppins text-gray-900 mb-6">Book Tour Package</h3>
+            <form id="agency-booking-form" class="space-y-4">
+                <div>
+                    <label for="booking-agency-name" class="block text-sm font-semibold text-gray-900">Travel Agency</label>
+                    <input type="text" id="booking-agency-name" readonly class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm bg-gray-100 text-gray-900 p-2">
+                </div>
+                <div>
+                    <label for="booking-destination" class="block text-sm font-semibold text-gray-900">Destination</label>
+                    <input type="text" id="booking-destination" readonly class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm bg-gray-100 text-gray-900 p-2">
+                </div>
+                <div>
+                    <label for="booking-agency-client-name" class="block text-sm font-semibold text-gray-900">Full Name</label>
+                    <input type="text" id="booking-agency-client-name" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-gray-900 p-2">
+                </div>
+                <div>
+                    <label for="booking-agency-client-email" class="block text-sm font-semibold text-gray-900">Email Address</label>
+                    <input type="email" id="booking-agency-client-email" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-gray-900 p-2">
+                </div>
+                <div>
+                    <label for="booking-agency-client-phone" class="block text-sm font-semibold text-gray-900">Phone Number</label>
+                    <input type="tel" id="booking-agency-client-phone" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-gray-900 p-2">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="booking-travel-start" class="block text-sm font-semibold text-gray-900">Travel Start Date</label>
+                        <input type="date" id="booking-travel-start" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-gray-900 p-2">
+                    </div>
+                    <div>
+                        <label for="booking-travel-end" class="block text-sm font-semibold text-gray-900">Travel End Date</label>
+                        <input type="date" id="booking-travel-end" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-gray-900 p-2">
+                    </div>
+                </div>
+                <div>
+                    <label for="booking-travelers" class="block text-sm font-semibold text-gray-900">Number of Travelers</label>
+                    <input type="number" id="booking-travelers" value="1" min="1" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-gray-900 p-2">
+                </div>
+                <div>
+                    <label for="booking-agency-special-requests" class="block text-sm font-semibold text-gray-900">Special Requests</label>
+                    <textarea id="booking-agency-special-requests" rows="3" class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-teal-500 focus:border-teal-500 text-gray-900 p-2" placeholder="Any special requirements, dietary restrictions, or preferences..."></textarea>
+                </div>
+                <button type="submit" class="w-full bg-teal-500 text-white font-semibold py-3 rounded-lg hover:bg-teal-600 transition-colors">
+                    Confirm Tour Booking
                 </button>
             </form>
         </div>
@@ -300,7 +372,7 @@
     <!-- Privacy Policy Modal -->
     <div id="privacy-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center p-4 z-[1000] opacity-0 pointer-events-none transition-all duration-300">
         <div class="modal-content bg-white p-8 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative scale-95 transition-all duration-300">
-            <button id="close-modal-button" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition-colors">
+            <button id="close-modal-button" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition-colors" title="Close privacy policy">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
             <h2 class="text-3xl font-bold font-poppins text-gray-900 mb-4">Privacy Policy</h2>
@@ -368,7 +440,7 @@
             `;
             
             toastContainer.appendChild(toast);
-            lucide.createIcons();
+            lucide.createIcons(); // Re-create icons for the new toast element
             
             setTimeout(() => {
                 toast.remove();
@@ -530,43 +602,11 @@
         const hotelBookingForm = document.getElementById('hotel-booking-form');
         const bookingHotelNameInput = document.getElementById('booking-hotel-name');
 
-        // Function to show toast notifications
-        function showToast(message, type = 'info') {
-            const toastContainer = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            let icon = '';
-            let bgColor = '';
-            
-            switch (type) {
-                case 'success':
-                    icon = '<i data-lucide="check-circle" class="w-5 h-5 mr-2"></i>';
-                    bgColor = 'bg-teal-500';
-                    break;
-                case 'error':
-                    icon = '<i data-lucide="x-circle" class="w-5 h-5 mr-2"></i>';
-                    bgColor = 'bg-red-500';
-                    break;
-                case 'info':
-                default:
-                    icon = '<i data-lucide="info" class="w-5 h-5 mr-2"></i>';
-                    bgColor = 'bg-blue-500';
-                    break;
-            }
-
-            toast.innerHTML = `
-                <div class="flex items-center p-4 mb-2 text-white ${bgColor} rounded-lg shadow-md transition-all duration-300">
-                    ${icon}
-                    <span>${message}</span>
-                </div>
-            `;
-            
-            toastContainer.appendChild(toast);
-            lucide.createIcons();
-            
-            setTimeout(() => {
-                toast.remove();
-            }, 5000);
-        }
+        const agencyBookingModal = document.getElementById('agency-booking-modal');
+        const closeAgencyBookingModalBtn = document.getElementById('close-agency-booking-modal-btn');
+        const agencyBookingForm = document.getElementById('agency-booking-form');
+        const bookingAgencyNameInput = document.getElementById('booking-agency-name');
+        const bookingDestinationInput = document.getElementById('booking-destination');
 
         // --- Render Tour Cards ---
         function renderTourCards(spotsToRender = touristSpots) {
@@ -609,18 +649,20 @@
             let agenciesHtml = '';
             spot.agencies.forEach(agency => {
                 agenciesHtml += `
-                    <div class="flex justify-between items-center bg-gray-50 p-4 rounded-lg">
-                        <div>
-                            <h4 class="font-semibold text-gray-900">${agency.name}</h4>
-                            <div class="flex items-center text-teal-600">
-                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                                <span class="ml-1 text-sm font-semibold">${agency.rating}</span>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="flex justify-between items-center mb-2">
+                            <div>
+                                <h4 class="font-semibold text-gray-900">${agency.name}</h4>
+                                <div class="flex items-center text-teal-600">
+                                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                    <span class="ml-1 text-sm font-semibold">${agency.rating}</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xl font-bold text-gray-900">$${agency.price}</p>
                             </div>
                         </div>
-                        <div class="text-right">
-                            <p class="text-xl font-bold text-gray-900">$${agency.price}</p>
-                            <button class="book-agency-btn bg-teal-500 text-white font-semibold px-4 py-1 mt-2 rounded-lg text-sm hover:bg-teal-600 transition-colors" data-agency-name="${agency.name}">Book Now</button>
-                        </div>
+                        <button class="book-agency-btn w-full bg-teal-500 text-white font-semibold px-4 py-2 rounded-lg text-sm hover:bg-teal-600 transition-colors" data-agency-name="${agency.name}" data-destination="${spot.title}">Book Now</button>
                     </div>
                 `;
             });
@@ -630,7 +672,7 @@
             if (spot.hotels && spot.hotels.length > 0) {
                 hotelsHtml += `
                     <h4 class="text-2xl font-semibold font-poppins text-gray-900 mb-4 mt-8">Recommended Hotels</h4>
-                    <div class="space-y-4">
+                    <div class="space-y-4 scrollable-box">
                 `;
                 spot.hotels.forEach(hotel => {
                     hotelsHtml += `
@@ -673,7 +715,7 @@
                         <h3 class="text-4xl font-bold font-poppins text-gray-900 mb-4">${spot.title}</h3>
                         <p class="text-gray-600 mb-6 leading-relaxed">${spot.description}</p>
                         <h4 class="text-2xl font-semibold font-poppins text-gray-900 mb-4">Agencies & Pricing</h4>
-                        <div class="space-y-4">
+                        <div class="space-y-4 scrollable-box">
                             ${agenciesHtml}
                         </div>
                         ${hotelsHtml} <!-- Inject the hotel content here -->
@@ -688,7 +730,8 @@
             modalContentContainer.querySelectorAll('.book-agency-btn').forEach(button => {
                 button.addEventListener('click', () => {
                     const agencyName = button.dataset.agencyName;
-                    showToast(`Booking with ${agencyName} has been confirmed!`, 'success');
+                    const destination = button.dataset.destination;
+                    openAgencyBookingModal(agencyName, destination);
                 });
             });
             
@@ -719,6 +762,21 @@
             hotelBookingForm.reset();
         }
 
+        function openAgencyBookingModal(agencyName, destination) {
+            bookingAgencyNameInput.value = agencyName;
+            bookingDestinationInput.value = destination;
+            agencyBookingModal.classList.remove('opacity-0', 'pointer-events-none');
+            agencyBookingModal.querySelector('.modal-content').classList.remove('scale-95');
+            // Also close the tour details modal for a cleaner UI
+            closeTourDetailsModal(); 
+        }
+
+        function closeAgencyBookingModal() {
+            agencyBookingModal.classList.add('opacity-0', 'pointer-events-none');
+            agencyBookingModal.querySelector('.modal-content').classList.add('scale-95');
+            agencyBookingForm.reset();
+        }
+
         hotelBookingForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const clientName = document.getElementById('booking-client-name').value;
@@ -731,6 +789,22 @@
         hotelBookingModal.addEventListener('click', (e) => {
             if (e.target === hotelBookingModal) {
                 closeHotelBookingModal();
+            }
+        });
+
+        agencyBookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const clientName = document.getElementById('booking-agency-client-name').value;
+            const agencyName = document.getElementById('booking-agency-name').value;
+            const destination = document.getElementById('booking-destination').value;
+            showToast(`Tour booking for ${clientName} with ${agencyName} to ${destination} confirmed!`, 'success');
+            closeAgencyBookingModal();
+        });
+
+        closeAgencyBookingModalBtn.addEventListener('click', closeAgencyBookingModal);
+        agencyBookingModal.addEventListener('click', (e) => {
+            if (e.target === agencyBookingModal) {
+                closeAgencyBookingModal();
             }
         });
 
