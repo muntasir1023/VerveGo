@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerveGo Agent Portal</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        h1, h2, h3, h4, h5, h6, .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Hide scrollbar for webkit browsers */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Chart-specific styles for responsiveness */
+        .chart-container {
+            position: relative;
+            height: 40vh;
+            width: 100%;
+        }
+        
+        /* Ensure charts are responsive on mobile */
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 30vh;
+            }
+        }
+
+        /* Basic modal styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 50;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Toast notification styles */
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+        }
+        .toast {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            color: #fff;
+            transform: translateX(120%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
+        .toast.success { background-color: #10B981; }
+        .toast.error { background-color: #EF4444; }
+
+    </style>
+</head>
+<body class="bg-gray-100 font-lato text-gray-800">
+
+    <!-- Login Page -->
+    <div id="login-section" class="flex items-center justify-center h-screen bg-gray-50">
+        <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm">
+            <div class="flex items-center justify-center gap-3 mb-6">
+                <img src="https://placehold.co/50x50/5B21B6/FFFFFF?text=V" alt="Logo" class="rounded-full">
+                <span class="text-3xl font-bold font-poppins text-indigo-700">VerveGo</span>
+            </div>
+            <h2 class="text-2xl font-bold font-poppins text-center mb-6">Agent Login</h2>
+            <form id="loginForm">
+                <div class="mb-4">
+                    <label for="loginEmail" class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
+                    <input type="email" id="loginEmail" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                </div>
+                <div class="mb-6">
+                    <label for="loginPassword" class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+                    <input type="password" id="loginPassword" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-indigo-700 transition-colors duration-200">
+                    Log In
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Main Portal Content (Initially hidden) -->
+    <!-- The main layout is now a single flex column on small screens, and row on large screens -->
+    <div id="portal-section" class="flex flex-col lg:flex-row h-screen bg-gray-100 hidden">
+
+        <!-- Mobile Header with Hamburger Menu -->
+        <header class="bg-white p-4 flex items-center justify-between lg:hidden shadow-md sticky top-0 z-40">
+            <div class="flex items-center gap-3">
+                <img src="https://placehold.co/40x40/5B21B6/FFFFFF?text=V" alt="Logo" class="rounded-full">
+                <span class="text-xl font-bold font-poppins text-indigo-700">VerveGo</span>
+            </div>
+            <button id="mobile-menu-toggle" class="p-2 rounded-md hover:bg-gray-100 text-gray-700">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </header>
+
+        <!-- Sidebar - now responsive -->
+        <!-- This sidebar is hidden on small screens and shown on large screens -->
+        <aside id="sidebar-desktop" class="hidden lg:flex flex-shrink-0 w-64 bg-white border-r border-gray-200 p-6 flex-col justify-between">
+            <div>
+                <!-- Logo -->
+                <div class="flex items-center gap-3 mb-8">
+                    <img src="https://placehold.co/40x40/5B21B6/FFFFFF?text=V" alt="Logo" class="rounded-full">
+                    <span class="text-xl font-bold font-poppins text-indigo-700">VerveGo</span>
+                </div>
+
+                <!-- User Profile -->
+                <div class="flex flex-col items-center mb-6">
+                    <img src="https://placehold.co/60x60/A78BFA/FFFFFF?text=JD" alt="User Avatar" class="rounded-full mb-2">
+                    <h3 id="user-profile-name" class="font-bold font-poppins text-lg">Test Agent</h3>
+                    <p id="user-profile-email" class="text-sm text-gray-500">test@vervego.com</p>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="space-y-2">
+                    <button id="dashboardBtn" class="flex items-center gap-3 p-3 rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors duration-200 w-full text-left">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                        <span class="text-sm font-semibold">Dashboard</span>
+                    </button>
+                    <button id="bookingsNavBtn" class="flex items-center gap-3 p-3 rounded-lg text-gray-700 hover:bg-indigo-100 transition-colors duration-200 w-full text-left">
+                        <i data-lucide="bus" class="w-5 h-5 text-indigo-600"></i>
+                        <span class="text-sm font-semibold">Bookings</span>
+                    </button>
+                    <button id="reportsBtn" class="flex items-center gap-3 p-3 rounded-lg text-gray-700 hover:bg-indigo-100 w-full text-left transition-colors duration-200">
+                        <i data-lucide="bar-chart-2" class="w-5 h-5 text-indigo-600"></i>
+                        <span class="text-sm font-semibold">Reports</span>
+                    </button>
+                    <button id="settingsBtn" class="flex items-center gap-3 p-3 rounded-lg text-gray-700 hover:bg-indigo-100 w-full text-left transition-colors duration-200">
+                        <i data-lucide="settings" class="w-5 h-5 text-indigo-600"></i>
+                        <span class="text-sm font-semibold">Settings</span>
+                    </button>
+                </nav>
+            </div>
+
+            <div class="mt-8">
+                <button id="logoutBtn" class="flex items-center gap-3 p-3 rounded-lg text-red-500 hover:bg-red-50 w-full text-left transition-colors duration-200">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                    <span class="text-sm font-semibold">Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Mobile Sidebar Menu (drawer) -->
+        <div id="mobile-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform -translate-x-full lg:hidden transition-transform duration-300 ease-in-out">
+            <div class="p-6 flex flex-col justify-between h-full">
+                <div>
+                    <!-- Mobile Logo and Close Button -->
+                    <div class="flex items-center justify-between mb-8">
+                        <div class="flex items-center gap-3">
+                            <img src="https://placehold.co/40x40/5B21B6/FFFFFF?text=V" alt="Logo" class="rounded-full">
+                            <span class="text-xl font-bold font-poppins text-indigo-700">VerveGo</span>
+                        </div>
+                        <button id="close-mobile-menu" class="p-2 rounded-md hover:bg-gray-100 text-gray-700">
+                            <i data-lucide="x" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+
+                    <!-- User Profile for mobile menu -->
+                    <div class="flex flex-col items-center mb-6">
+                        <img src="https://placehold.co/60x60/A78BFA/FFFFFF?text=JD" alt="User Avatar" class="rounded-full mb-2">
+                        <h3 class="font-bold font-poppins text-lg">Test Agent</h3>
+                        <p class="text-sm text-gray-500">test@vervego.com</p>
+                    </div>
+
+                    <!-- Navigation -->
+                    <nav class="space-y-2">
+                        <button class="mobile-nav-btn flex items-center gap-3 p-3 rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors duration-200 w-full text-left" data-section="dashboard-section">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                            <span class="text-sm font-semibold">Dashboard</span>
+                        </button>
+                        <button class="mobile-nav-btn flex items-center gap-3 p-3 rounded-lg text-gray-700 hover:bg-indigo-100 transition-colors duration-200 w-full text-left" data-section="bookings-section">
+                            <i data-lucide="bus" class="w-5 h-5 text-indigo-600"></i>
+                            <span class="text-sm font-semibold">Bookings</span>
+                        </button>
+                        <button class="mobile-nav-btn flex items-center gap-3 p-3 rounded-lg text-gray-700 hover:bg-indigo-100 w-full text-left transition-colors duration-200" data-section="reports-section">
+                            <i data-lucide="bar-chart-2" class="w-5 h-5 text-indigo-600"></i>
+                            <span class="text-sm font-semibold">Reports</span>
+                        </button>
+                        <button class="mobile-nav-btn flex items-center gap-3 p-3 rounded-lg text-gray-700 hover:bg-indigo-100 w-full text-left transition-colors duration-200" data-section="settings-section">
+                            <i data-lucide="settings" class="w-5 h-5 text-indigo-600"></i>
+                            <span class="text-sm font-semibold">Settings</span>
+                        </button>
+                    </nav>
+                </div>
+                <div class="mt-8">
+                    <button class="mobile-nav-btn flex items-center gap-3 p-3 rounded-lg text-red-500 hover:bg-red-50 w-full text-left transition-colors duration-200" data-action="logout">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                        <span class="text-sm font-semibold">Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Sidebar Overlay -->
+        <div id="mobile-sidebar-backdrop" class="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden hidden"></div>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="flex-1 p-4 lg:p-8 overflow-y-auto no-scrollbar lg:ml-64">
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="main-content-section">
+                <header class="flex flex-col sm:flex-row justify-between sm:items-center mb-6">
+                    <h1 class="text-3xl font-bold font-poppins text-gray-900 mb-4 sm:mb-0">Dashboard</h1>
+                    <button id="newBookingBtn" class="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-full shadow-md hover:bg-indigo-700 transition-colors duration-200 w-full sm:w-auto">
+                        + New Booking
+                    </button>
+                </header>
+
+                <!-- Stats Section -->
+                <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-500 text-sm font-semibold">Total Bookings</span>
+                            <i data-lucide="bus" class="w-5 h-5 text-indigo-500"></i>
+                        </div>
+                        <div class="text-2xl font-bold font-poppins text-gray-900">1,245</div>
+                        <div class="text-green-500 text-sm mt-1">+12% from last month</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-500 text-sm font-semibold">Revenue</span>
+                            <i data-lucide="wallet" class="w-5 h-5 text-indigo-500"></i>
+                        </div>
+                        <div class="text-2xl font-bold font-poppins text-gray-900">$25,600</div>
+                        <div class="text-green-500 text-sm mt-1">+8% from last month</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-500 text-sm font-semibold">Pending</span>
+                            <i data-lucide="clock" class="w-5 h-5 text-yellow-500"></i>
+                        </div>
+                        <div class="text-2xl font-bold font-poppins text-gray-900">45</div>
+                        <div class="text-red-500 text-sm mt-1">-3% from last month</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-500 text-sm font-semibold">New Clients</span>
+                            <i data-lucide="users" class="w-5 h-5 text-indigo-500"></i>
+                        </div>
+                        <div class="text-2xl font-bold font-poppins text-gray-900">89</div>
+                        <div class="text-green-500 text-sm mt-1">+15% from last month</div>
+                    </div>
+                </section>
+
+                <!-- Charts Section -->
+                <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-lg font-bold font-poppins mb-4">Bookings Over Time</h2>
+                        <div class="chart-container">
+                            <canvas id="bookingsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h2 class="text-lg font-bold font-poppins mb-4">Revenue by Service</h2>
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Bookings Section -->
+            <div id="bookings-section" class="main-content-section hidden">
+                <header class="flex flex-col sm:flex-row justify-between sm:items-center mb-6">
+                    <h1 class="text-3xl font-bold font-poppins text-gray-900 mb-4 sm:mb-0">All Bookings</h1>
+                    <button id="newBookingBtn2" class="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-full shadow-md hover:bg-indigo-700 transition-colors duration-200 w-full sm:w-auto">
+                        + New Booking
+                    </button>
+                </header>
+                <section class="bg-white p-6 rounded-xl shadow-md">
+                    <h2 class="text-lg font-bold font-poppins mb-4">Recent Bookings</h2>
+                    <div class="overflow-x-auto no-scrollbar">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr class="bg-gray-50 text-gray-500 text-xs font-semibold uppercase tracking-wider">
+                                    <th class="px-6 py-3 text-left">Client Name</th>
+                                    <th class="px-6 py-3 text-left">Service</th>
+                                    <th class="px-6 py-3 text-left">Date</th>
+                                    <th class="px-6 py-3 text-left">Status</th>
+                                    <th class="px-6 py-3 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookingsTableBody" class="divide-y divide-gray-200">
+                                <!-- Booking rows will be dynamically inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Reports Section (Initially hidden) -->
+            <div id="reports-section" class="main-content-section hidden">
+                <header class="flex flex-col sm:flex-row justify-between sm:items-center mb-6">
+                    <h1 class="text-3xl font-bold font-poppins text-gray-900">Reports</h1>
+                </header>
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold font-poppins mb-4">Financial Reports</h2>
+                    <p class="text-gray-600 mb-6">Here you can find detailed financial data and performance metrics for your bookings. You can view reports on revenue, booking trends, and agent performance.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg flex items-center gap-4">
+                            <i data-lucide="trending-up" class="w-6 h-6 text-green-500"></i>
+                            <div>
+                                <h3 class="font-semibold">Revenue Trend</h3>
+                                <p class="text-sm text-gray-500">View month-over-month revenue</p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg flex items-center gap-4">
+                            <i data-lucide="list-ordered" class="w-6 h-6 text-indigo-500"></i>
+                            <div>
+                                <h3 class="font-semibold">Top Services</h3>
+                                <p class="text-sm text-gray-500">Analyze most popular services</p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg flex items-center gap-4">
+                            <i data-lucide="line-chart" class="w-6 h-6 text-red-500"></i>
+                            <div>
+                                <h3 class="font-semibold">Cancellation Rate</h3>
+                                <p class="text-sm text-gray-500">Track booking cancellation trends</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section (Initially hidden) -->
+            <div id="settings-section" class="main-content-section hidden">
+                <header class="flex flex-col sm:flex-row justify-between sm:items-center mb-6">
+                    <h1 class="text-3xl font-bold font-poppins text-gray-900">Settings</h1>
+                </header>
+                <div class="bg-white p-8 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold font-poppins mb-4">Agent Profile</h2>
+                    <form id="settingsForm" class="space-y-4">
+                        <div>
+                            <label for="agentName" class="block text-sm font-semibold text-gray-700 mb-1">Agent Name</label>
+                            <input type="text" id="agentName" value="Test Agent" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label for="agentEmail" class="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
+                            <input type="email" id="agentEmail" value="test@vervego.com" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" readonly>
+                        </div>
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-full hover:bg-indigo-700 transition-colors duration-200">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- New Booking Modal -->
+    <div id="newBookingModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold font-poppins">New Booking</h3>
+                <button id="closeBookingModalBtn" class="text-gray-500 hover:text-gray-800 transition-colors duration-200">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <form id="newBookingForm">
+                <div class="mb-4">
+                    <label for="clientName" class="block text-sm font-semibold text-gray-700 mb-1">Client Name</label>
+                    <input type="text" id="clientName" name="clientName" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div class="mb-4">
+                    <label for="serviceType" class="block text-sm font-semibold text-gray-700 mb-1">Service Type</label>
+                    <select id="serviceType" name="serviceType" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="Airport Transfer">Airport Transfer</option>
+                        <option value="City Tour">City Tour</option>
+                        <option value="Corporate Event">Corporate Event</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="bookingDate" class="block text-sm font-semibold text-gray-700 mb-1">Date</label>
+                    <input type="date" id="bookingDate" name="bookingDate" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-full hover:bg-indigo-700 transition-colors duration-200">Create Booking</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script>
+        // Lucide Icons initialization
+        lucide.createIcons();
+
+        // Hardcoded dummy user credentials for demonstration
+        const DUMMY_USER = {
+            email: 'test@vervego.com',
+            password: 'password123',
+            name: 'Test Agent'
+        };
+
+        // --- Auth and UI state functions ---
+        function showPortal() {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('portal-section').classList.remove('hidden');
+            // Populate user profile info
+            document.getElementById('user-profile-name').textContent = DUMMY_USER.name;
+            document.getElementById('user-profile-email').textContent = DUMMY_USER.email;
+            // Update settings form fields
+            document.getElementById('agentName').value = DUMMY_USER.name;
+            document.getElementById('agentEmail').value = DUMMY_USER.email;
+            // Initially show dashboard
+            showSection('dashboard-section');
+            renderCharts();
+            renderBookings();
+        }
+
+        function showLogin() {
+            document.getElementById('login-section').classList.remove('hidden');
+            document.getElementById('portal-section').classList.add('hidden');
+        }
+
+        // --- Chart.js data ---
+        const bookingsData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Bookings',
+                data: [65, 59, 80, 81, 56, 55],
+                backgroundColor: 'rgba(99, 102, 241, 0.5)',
+                borderColor: 'rgb(99, 102, 241)',
+                borderWidth: 2,
+                borderRadius: 4,
+            }]
+        };
+
+        const revenueData = {
+            labels: ['Airport Transfer', 'City Tour', 'Corporate Event'],
+            datasets: [{
+                label: 'Revenue',
+                data: [15000, 7500, 3100],
+                backgroundColor: [
+                    'rgba(99, 102, 241, 0.8)',
+                    'rgba(167, 139, 250, 0.8)',
+                    'rgba(129, 140, 248, 0.8)',
+                ],
+                hoverOffset: 4
+            }]
+        };
+
+        // Chart.js configuration
+        const bookingsConfig = {
+            type: 'bar',
+            data: bookingsData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        const revenueConfig = {
+            type: 'pie',
+            data: revenueData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                family: "'Lato', sans-serif"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        // Render charts
+        let bookingsChartInstance = null;
+        let revenueChartInstance = null;
+
+        function renderCharts() {
+            if (bookingsChartInstance) bookingsChartInstance.destroy();
+            if (revenueChartInstance) revenueChartInstance.destroy();
+
+            bookingsChartInstance = new Chart(
+                document.getElementById('bookingsChart'),
+                bookingsConfig
+            );
+            revenueChartInstance = new Chart(
+                document.getElementById('revenueChart'),
+                revenueConfig
+            );
+        }
+        
+        // --- Booking Data & Functions ---
+        let bookings = [
+            { id: 1, clientName: 'Jane Doe', service: 'Airport Transfer', date: '2023-08-01', status: 'Completed' },
+            { id: 2, clientName: 'John Smith', service: 'City Tour', date: '2023-08-05', status: 'Pending' },
+            { id: 3, clientName: 'Alice Johnson', service: 'Corporate Event', date: '2023-08-10', status: 'Confirmed' },
+        ];
+
+        function renderBookings() {
+            const bookingsTableBody = document.getElementById('bookingsTableBody');
+            if (!bookingsTableBody) return;
+            bookingsTableBody.innerHTML = ''; // Clear existing rows
+
+            bookings.forEach(booking => {
+                const statusColor = {
+                    'Completed': 'bg-green-100 text-green-700',
+                    'Pending': 'bg-yellow-100 text-yellow-700',
+                    'Confirmed': 'bg-blue-100 text-blue-700'
+                }[booking.status] || 'bg-gray-100 text-gray-700';
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold">${booking.clientName}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${booking.service}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${booking.date}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusColor}">${booking.status}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <div class="relative inline-block text-left">
+                            <button class="booking-actions-btn text-indigo-600 hover:text-indigo-900 transition-colors duration-200">
+                                <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                            </button>
+                            <div class="booking-actions-menu hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
+                                <div class="py-1">
+                                    <button class="booking-action-item w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-action="view">
+                                        <i data-lucide="eye" class="w-4 h-4 inline-block mr-2"></i> View Details
+                                    </button>
+                                    <button class="booking-action-item w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-action="edit">
+                                        <i data-lucide="pencil" class="w-4 h-4 inline-block mr-2"></i> Edit Booking
+                                    </button>
+                                    <button class="booking-action-item w-full text-left block px-4 py-2 text-sm text-red-700 hover:bg-red-50" data-action="cancel">
+                                        <i data-lucide="x-circle" class="w-4 h-4 inline-block mr-2"></i> Cancel Booking
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                bookingsTableBody.appendChild(row);
+            });
+            lucide.createIcons();
+        }
+
+        // --- Toast Notification Functions ---
+        function showToast(message, type = 'success') {
+            const toastContainer = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.classList.add('toast', type);
+            toast.innerHTML = `
+                <div class="flex items-center">
+                    <span class="font-semibold">${message}</span>
+                </div>
+            `;
+            toastContainer.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // --- Modal Functions ---
+        const newBookingBtn = document.getElementById('newBookingBtn');
+        const newBookingBtn2 = document.getElementById('newBookingBtn2');
+        const newBookingModal = document.getElementById('newBookingModal');
+        const closeBookingModalBtn = document.getElementById('closeBookingModalBtn');
+        const newBookingForm = document.getElementById('newBookingForm');
+        
+        function openBookingModal() { newBookingModal.style.display = 'flex'; }
+        function closeBookingModal() { newBookingModal.style.display = 'none'; }
+
+        // Event Listeners for new booking modal
+        if (newBookingBtn) newBookingBtn.addEventListener('click', openBookingModal);
+        if (newBookingBtn2) newBookingBtn2.addEventListener('click', openBookingModal);
+        if (closeBookingModalBtn) closeBookingModalBtn.addEventListener('click', closeBookingModal);
+        if (newBookingForm) {
+            newBookingForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const clientName = document.getElementById('clientName').value;
+                const serviceType = document.getElementById('serviceType').value;
+                const bookingDate = document.getElementById('bookingDate').value;
+                
+                const newBooking = {
+                    id: bookings.length + 1,
+                    clientName,
+                    service: serviceType,
+                    date: bookingDate,
+                    status: 'Pending'
+                };
+                bookings.push(newBooking);
+                renderBookings();
+                showToast(`Booking for ${clientName} created!`, 'success');
+                closeBookingModal();
+            });
+        }
+
+        // Booking Actions Dropdown
+        document.addEventListener('click', (e) => {
+            const isActionsButton = e.target.closest('.booking-actions-btn');
+            const openMenu = document.querySelector('.booking-actions-menu:not(.hidden)');
+
+            // If there's an open menu and the click is outside, close it
+            if (openMenu && !isActionsButton) {
+                openMenu.classList.add('hidden');
+            }
+
+            if (isActionsButton) {
+                const menu = isActionsButton.nextElementSibling;
+                if (menu.classList.contains('hidden')) {
+                    if(openMenu) openMenu.classList.add('hidden'); // Close any other open menu
+                    menu.classList.remove('hidden');
+                } else {
+                    menu.classList.add('hidden');
+                }
+            }
+        });
+
+        // Delegate click events for booking action items
+        document.addEventListener('click', (e) => {
+            const actionItem = e.target.closest('.booking-action-item');
+            if (actionItem) {
+                showToast(`${actionItem.textContent.trim()} action clicked. (Prototype)`, 'success');
+            }
+        });
+        
+        // --- Mobile Navigation Logic ---
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const mobileBackdrop = document.getElementById('mobile-sidebar-backdrop');
+        const mobileNavButtons = document.querySelectorAll('.mobile-nav-btn');
+
+        function openMobileMenu() {
+            mobileSidebar.classList.remove('-translate-x-full');
+            mobileSidebar.classList.add('translate-x-0');
+            mobileBackdrop.classList.remove('hidden');
+        }
+
+        function closeMobileMenuFunc() {
+            mobileSidebar.classList.remove('translate-x-0');
+            mobileSidebar.classList.add('-translate-x-full');
+            mobileBackdrop.classList.add('hidden');
+        }
+
+        if(mobileMenuToggle) mobileMenuToggle.addEventListener('click', openMobileMenu);
+        if(closeMobileMenu) closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
+        if(mobileBackdrop) mobileBackdrop.addEventListener('click', closeMobileMenuFunc);
+
+        mobileNavButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const sectionId = e.currentTarget.dataset.section;
+                const action = e.currentTarget.dataset.action;
+                if (action === 'logout') {
+                    showLogin();
+                    showToast('Logged out successfully!', 'success');
+                } else if (sectionId) {
+                    showSection(sectionId);
+                }
+                closeMobileMenuFunc();
+            });
+        });
+
+        // --- Main Navigation Logic (Desktop & Mobile) ---
+        const dashboardBtn = document.getElementById('dashboardBtn');
+        const bookingsNavBtn = document.getElementById('bookingsNavBtn');
+        const reportsBtn = document.getElementById('reportsBtn');
+        const settingsBtn = document.getElementById('settingsBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const contentSections = document.querySelectorAll('.main-content-section');
+        const sidebarButtons = document.querySelectorAll('aside nav button');
+
+        function showSection(sectionId) {
+            contentSections.forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+            }
+
+            // Update desktop sidebar buttons
+            sidebarButtons.forEach(button => {
+                button.classList.remove('bg-indigo-50', 'text-indigo-700');
+                button.classList.add('text-gray-700');
+            });
+            const activeButton = document.getElementById(sectionId.replace('-section', 'Btn'));
+            if (activeButton) {
+                activeButton.classList.add('bg-indigo-50', 'text-indigo-700');
+                activeButton.classList.remove('text-gray-700');
+            }
+
+            // Update mobile menu buttons
+            mobileNavButtons.forEach(button => {
+                button.classList.remove('bg-indigo-50', 'text-indigo-700');
+                button.classList.add('text-gray-700');
+                if (button.dataset.section === sectionId) {
+                    button.classList.add('bg-indigo-50', 'text-indigo-700');
+                    button.classList.remove('text-gray-700');
+                }
+            });
+            lucide.createIcons();
+        }
+        
+        // Add event listeners to the desktop navigation buttons
+        if (dashboardBtn) dashboardBtn.addEventListener('click', () => showSection('dashboard-section'));
+        if (bookingsNavBtn) bookingsNavBtn.addEventListener('click', () => showSection('bookings-section'));
+        if (reportsBtn) reportsBtn.addEventListener('click', () => showSection('reports-section'));
+        if (settingsBtn) settingsBtn.addEventListener('click', () => showSection('settings-section'));
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                showLogin();
+                showToast('Logged out successfully!', 'success');
+            });
+        }
+        
+        // --- Login Form Logic ---
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+                if (email === DUMMY_USER.email && password === DUMMY_USER.password) {
+                    showPortal();
+                    showToast('Logged in successfully!', 'success');
+                } else {
+                    showToast('Invalid email or password.', 'error');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
