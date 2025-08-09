@@ -659,7 +659,7 @@
                                 </div>
                             </div>
                             <div class="text-right">
-                                <p class="text-xl font-bold text-gray-900">$${agency.price}</p>
+                                <p class="text-xl font-bold text-gray-900">${agency.price}</p>
                             </div>
                         </div>
                         <button class="book-agency-btn w-full bg-teal-500 text-white font-semibold px-4 py-2 rounded-lg text-sm hover:bg-teal-600 transition-colors" data-agency-name="${agency.name}" data-destination="${spot.title}">Book Now</button>
@@ -697,7 +697,7 @@
                                 <span>${hotel.beds} beds</span>
                             </div>
                             <div class="flex justify-between items-center mt-2">
-                                <p class="text-xl font-bold text-gray-900">$${hotel.price} / night</p>
+                                <p class="text-xl font-bold text-gray-900">${hotel.price} / night</p>
                                 <button class="book-hotel-btn bg-teal-500 text-white font-semibold px-4 py-1 rounded-lg text-sm hover:bg-teal-600 transition-colors" data-hotel-name="${hotel.name}">Book Now</button>
                             </div>
                         </div>
@@ -780,8 +780,17 @@
         hotelBookingForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const clientName = document.getElementById('booking-client-name').value;
+            const clientEmail = document.getElementById('booking-client-email').value;
             const hotelName = document.getElementById('booking-hotel-name').value;
-            showToast(`Hotel booking for ${clientName} at ${hotelName} confirmed!`, 'success');
+            const checkIn = document.getElementById('booking-check-in').value;
+            const checkOut = document.getElementById('booking-check-out').value;
+            const guests = document.getElementById('booking-guests').value;
+            const specialRequests = document.getElementById('booking-special-requests').value;
+
+            const serviceName = `Hotel: ${hotelName}`;
+            const bookingDetails = `Client: ${clientName}, Dates: ${checkIn} to ${checkOut}, Guests: ${guests}, Requests: ${specialRequests}`;
+
+            handleBooking(serviceName, bookingDetails, clientEmail, clientName);
             closeHotelBookingModal();
         });
 
@@ -795,9 +804,18 @@
         agencyBookingForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const clientName = document.getElementById('booking-agency-client-name').value;
+            const clientEmail = document.getElementById('booking-agency-client-email').value;
             const agencyName = document.getElementById('booking-agency-name').value;
             const destination = document.getElementById('booking-destination').value;
-            showToast(`Tour booking for ${clientName} with ${agencyName} to ${destination} confirmed!`, 'success');
+            const travelStart = document.getElementById('booking-travel-start').value;
+            const travelEnd = document.getElementById('booking-travel-end').value;
+            const travelers = document.getElementById('booking-travelers').value;
+            const specialRequests = document.getElementById('booking-agency-special-requests').value;
+
+            const serviceName = `Tour: ${destination} with ${agencyName}`;
+            const bookingDetails = `Client: ${clientName}, Dates: ${travelStart} to ${travelEnd}, Travelers: ${travelers}, Requests: ${specialRequests}`;
+
+            handleBooking(serviceName, bookingDetails, clientEmail, clientName);
             closeAgencyBookingModal();
         });
 
@@ -919,6 +937,53 @@
         window.addEventListener('DOMContentLoaded', () => {
             renderTourCards();
         });
+
+        // Function to handle booking
+        function handleBooking(serviceName, bookingDetails, userEmail, userName) {
+            fetch('http://localhost:5000/api/bookings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    serviceName: serviceName,
+                    bookingDetails: bookingDetails,
+                    userEmail: userEmail,
+                    userName: userName
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Booking response:', data);
+                if (data.success) {
+                    showToast('Booking confirmed successfully!', 'success');
+                } else {
+                    showToast('Booking failed: ' + data.error, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error during booking:', error);
+                showToast('An error occurred during booking.', 'error');
+            });
+        }
+
+        // Example of how to call handleBooking (you can attach this to a button click or form submission)
+        // For demonstration, let's add a button to the first tour card (Eiffel Tower)
+        const eiffelTowerCard = document.querySelector('[data-spot-id="spot-1"]');
+        if (eiffelTowerCard) {
+            const bookNowButton = document.createElement('button');
+            bookNowButton.textContent = 'Quick Book Eiffel Tower';
+            bookNowButton.classList.add('bg-blue-500', 'text-white', 'font-semibold', 'px-4', 'py-2', 'rounded-lg', 'hover:bg-blue-600', 'transition-colors', 'mt-4');
+            bookNowButton.addEventListener('click', () => {
+                handleBooking(
+                    'Eiffel Tower Tour',
+                    'Quick booking for Eiffel Tower',
+                    'muntasir1023@gmail.com',
+                    'VerveGo'
+                );
+            });
+            eiffelTowerCard.querySelector('.flex-col').appendChild(bookNowButton);
+        }
     </script>
 </body>
 </html>
