@@ -126,23 +126,33 @@
                     Empower your travel business with seamless booking, client management, and a vibrant community.
                 </p>
                 <!-- Existing and new buttons are wrapped in a flex container for horizontal alignment -->
-                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
                     <!-- Button for agencies -->
-                    <a href="#apply" class="bg-teal-500 text-white font-semibold px-8 py-4 rounded-full text-lg hover:bg-teal-600 transition-all shadow-lg w-full sm:w-auto">
-                        <span class="block">For Agencies</span>
-                        <span class="text-sm font-light text-gray-200 hover:text-white transition-colors">Start Your Adventure</span>
+                    <a href="#apply" class="group relative inline-block text-lg font-semibold text-center text-white bg-teal-500 rounded-lg shadow-xl transition-transform transform hover:scale-105 w-full sm:w-auto">
+                        <div class="p-6">
+                            <div class="flex items-center justify-center mb-2">
+                                <i data-lucide="briefcase" class="w-8 h-8 text-teal-200"></i>
+                            </div>
+                            <span class="block text-xl font-bold">For Agencies</span>
+                            <span class="block text-sm font-light text-gray-200 mt-1">Join Our Network</span>
+                        </div>
                     </a>
                     <!-- Button for travelers -->
-                    <a href="vervego_tours.html" class="bg-teal-500 text-white font-semibold px-8 py-4 rounded-full text-lg hover:bg-teal-600 transition-all shadow-lg w-full sm:w-auto">
-                        <span class="block">For Travelers</span>
-                        <span class="text-sm font-light text-gray-200 hover:text-white transition-colors">Find Your Next Trip</span>
+                    <a href="vervego_tours.html" class="group relative inline-block text-lg font-semibold text-center text-white bg-teal-500 rounded-lg shadow-xl transition-transform transform hover:scale-105 w-full sm:w-auto">
+                        <div class="p-6">
+                            <div class="flex items-center justify-center mb-2">
+                                <i data-lucide="globe" class="w-8 h-8 text-teal-200"></i>
+                            </div>
+                            <span class="block text-xl font-bold">For Travelers</span>
+                            <span class="block text-sm font-light text-gray-200 mt-1">Explore Tours</span>
+                        </div>
                     </a>
                 </div>
             </div>
         </section>
 
         <!-- Why Join Us Section -->
-        <section id="why-join" class="page-section py-20 px-6 bg-slate-50 text-gray-900">
+        <section id="why-join" class="page-section py-20 px-6 bg-gray-100 text-gray-900">
             <div class="container mx-auto">
                 <h2 class="text-4xl font-bold font-poppins text-center mb-12">Why Choose VerveGo?</h2>
                 <div class="grid md:grid-cols-3 gap-12">
@@ -208,7 +218,7 @@
         </section>
 
         <!-- Testimonials Section -->
-        <section id="testimonials" class="page-section py-20 px-6 bg-slate-50 text-gray-900">
+        <section id="testimonials" class="page-section py-20 px-6 bg-gray-100 text-gray-900">
             <div class="container mx-auto text-center">
                 <h2 class="text-4xl font-bold font-poppins mb-12">What Our Agents Say</h2>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -331,7 +341,7 @@
         </section>
 
         <!-- FAQ Section -->
-        <section id="faq" class="page-section py-20 px-6 bg-slate-50 text-gray-900">
+        <section id="faq" class="page-section py-20 px-6 bg-gray-100 text-gray-900">
             <div class="container mx-auto max-w-4xl">
                 <h2 class="text-4xl font-bold font-poppins text-center mb-12">Frequently Asked Questions</h2>
                 <div class="space-y-6">
@@ -470,7 +480,7 @@
                 </div>
             </div>
             <div class="text-center text-sm text-gray-500 mt-8 border-t border-gray-700 pt-8">
-                &copy; 2024 VerveGo. All rights reserved.
+                &copy; <span id="copyright-year"></span> VerveGo. All rights reserved.
             </div>
         </div>
     </footer>
@@ -614,23 +624,41 @@
         const submissionMessage = document.getElementById('submission-message');
 
         if (form) {
-            form.addEventListener('submit', (e) => {
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                // In a real application, you would send this data to a server.
-                // For this example, we'll just show a success message.
-                console.log('Form Submitted!');
-                // Hide the form and show the success message
-                form.classList.add('hidden');
-                submissionMessage.classList.remove('hidden');
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
 
-                // Optional: Reset the form after a short delay
-                setTimeout(() => {
-                    form.reset();
-                    form.classList.remove('hidden');
-                    submissionMessage.classList.add('hidden');
-                }, 5000); // Hide message after 5 seconds
+                try {
+                    const response = await fetch('http://localhost:5000/api/apply', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        form.classList.add('hidden');
+                        submissionMessage.classList.remove('hidden');
+                        setTimeout(() => {
+                            form.reset();
+                            form.classList.remove('hidden');
+                            submissionMessage.classList.add('hidden');
+                        }, 5000);
+                    } else {
+                        alert('There was an error submitting your application. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Error submitting application:', error);
+                    alert('There was an error submitting your application. Please try again.');
+                }
             });
         }
+    </script>
+    <script src="/js/tour-details-enhanced.js"></script>
+    <script>
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
