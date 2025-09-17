@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerveGo - Explore Our Tours</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom styles to apply the chosen fonts */
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f8fafc; /* Off-white background */
+        }
+        h1, h2, h3, h4, h5, h6 {.
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Style for active nav link */
+        .nav-link-active {
+            color: #14b8a6; /* Teal accent color */
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="index.html" class="nav-link text-2xl font-bold text-white">
+                    Verve<span class="text-teal-500">Go</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="vervego_tours.html" class="nav-link text-teal-400 font-semibold">Tours</a>
+                    <a href="index.html#why-join" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">Why Join Us</a>
+                    <a href="index.html#how-it-works" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">How It Works</a>
+                    <a href="index.html#testimonials" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">Testimonials</a>
+                    <a href="index.html#pricing" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">Pricing</a>
+                    <a href="index.html#apply" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">Apply</a>
+                    <a href="index.html#faq" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">FAQ</a>
+                </nav>
+
+                <!-- CTA and Login Buttons -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="hotel_portal.html" class="text-gray-300 hover:text-white">Hotel Login</a>
+                    <a href="vervego_agent_portal.html" class="text-gray-300 hover:text-white">Agent Login</a>
+                    <a href="index.html#apply" class="bg-teal-500 text-white font-semibold px-5 py-2 rounded-lg hover:bg-teal-600 transition-all">Apply Now</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-white focus:outline-none">
+                        <svg id="menu-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                        <svg id="menu-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900">
+            <nav class="flex flex-col items-center space-y-4 px-6 pt-2 pb-6">
+                <a href="vervego_tours.html" class="nav-link text-teal-400 font-semibold w-full text-center py-2">Tours</a>
+                <a href="index.html#why-join" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">Why Join Us</a>
+                <a href="index.html#how-it-works" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">How It Works</a>
+                <a href="index.html#testimonials" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">Testimonials</a>
+                <a href="index.html#pricing" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">Pricing</a>
+                <a href="index.html#apply" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">Apply</a>
+                <a href="index.html#faq" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">FAQ</a>
+                <div class="border-t border-gray-700 w-full my-4"></div>
+                <a href="hotel_portal.html" class="text-gray-300 hover:text-white w-full text-center py-2">Hotel Login</a>
+                <a href="vervego_agent_portal.html" class="text-gray-300 hover:text-white w-full text-center py-2">Agent Login</a>
+                <a href="index.html#apply" class="bg-teal-500 text-white font-semibold px-5 py-3 rounded-lg hover:bg-teal-600 transition-all w-full text-center">Apply Now</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section for Tours Page -->
+        <section class="relative h-96 bg-cover bg-center text-white" style="background-image: url('https://e0.pxfuel.com/wallpapers/550/160/desktop-wallpaper-adventure-adventure-landscape.jpg');">
+            <div class="absolute inset-0 bg-gray-900 opacity-60"></div>
+            <div class="container mx-auto h-full flex flex-col justify-center items-center text-center relative z-10 p-6">
+                <h1 class="text-4xl md:text-6xl font-bold font-poppins mb-4 leading-tight">Discover Your Next Adventure</h1>
+                <p class="text-lg md:text-xl max-w-3xl text-gray-200">Explore a world of breathtaking destinations and unforgettable experiences. Your journey begins here.</p>
+            </div>
+        </section>
+
+        <section id="tours" class="py-20 px-6">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold font-poppins text-center mb-4 text-gray-900">Our Exciting Tour Packages</h2>
+                <p class="text-lg text-center text-gray-600 mb-12 max-w-3xl mx-auto">Browse through our curated selection of tours, designed to offer unique experiences for every kind of traveler. Find your perfect adventure today!</p>
+                
+                <!-- Filters and Search -->
+                <div class="bg-white p-6 rounded-xl shadow-lg mb-12">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                        <!-- Departure Country -->
+                        <div class="relative">
+                            <label for="departure-country" class="sr-only">Departure Country</label>
+                            <select id="departure-country" class="w-full appearance-none bg-gray-100 border-2 border-gray-200 rounded-lg py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500">
+                                <option value="">Departure Country</option>
+                                <option value="USA">USA</option>
+                                <option value="Canada">Canada</option>
+                                <option value="UK">UK</option>
+                                <option value="Australia">Australia</option>
+                                <option value="India">India</option>
+                                <option value="Bangladesh">Bangladesh</option>
+                                <option value="France">France</option>
+                                <option value="Germany">Germany</option>
+                                <option value="Japan">Japan</option>
+                                <option value="Brazil">Brazil</option>
+                                <option value="South Africa">South Africa</option>
+                                <option value="Argentina">Argentina</option>
+                                <option value="New Zealand">New Zealand</option>
+                                <option value="Iceland">Iceland</option>
+                                <option value="Morocco">Morocco</option>
+                                <option value="Ecuador">Ecuador</option>
+                                <option value="Egypt">Egypt</option>
+                                <option value="China">China</option>
+                                <option value="Peru">Peru</option>
+                                <option value="Tanzania">Tanzania</option>
+                                <option value="Uzbekistan">Uzbekistan</option>
+                                <option value="Vietnam">Vietnam</option>
+                                <option value="Cambodia">Cambodia</option>
+                                <option value="Scotland">Scotland</option>
+                                <option value="Jordan">Jordan</option>
+                                <option value="Spain">Spain</option>
+                                <option value="Cuba">Cuba</option>
+                                <option value="Greece">Greece</option>
+                                <option value="Ireland">Ireland</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <!-- Currency Selector -->
+                        <div class="relative">
+                            <label for="currency-select" class="sr-only">Currency</label>
+                            <select id="currency-select" class="w-full appearance-none bg-gray-100 border-2 border-gray-200 rounded-lg py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500">
+                                <option value="USD">USD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="GBP">GBP</option>
+                                <option value="INR">INR</option>
+                                <option value="BDT">BDT</option>
+                                <option value="CAD">CAD</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <i data-lucide="chevron-down" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <!-- Search Bar -->
+                        <div class="relative">
+                            <label for="search-bar" class="sr-only">Search for a destination</label>
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i data-lucide="search" class="w-5 h-5 text-gray-400"></i>
+                            </div>
+                            <input type="text" id="search-bar" placeholder="Search for a destination..." class="w-full bg-gray-100 border-2 border-gray-200 rounded-lg py-3 pl-10 pr-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tours Container -->
+                <div id="tours-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Tour cards will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Verve<span class="text-teal-500">Go</span></h3>
+                    <p class="text-sm">Empowering travel agents, one booking at a time.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="vervego_tours.html" class="hover:text-white transition-colors">Tours</a></li>
+                        <li><a href="index.html#why-join" class="hover:text-white transition-colors">Why Join Us</a></li>
+                        <li><a href="index.html#testimonials" class="hover:text-white transition-colors">Testimonials</a></li>
+                        <li><a href="index.html#pricing" class="hover:text-white transition-colors">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Agent Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="vervego_agent_portal.html" class="hover:text-white transition-colors">Agent Login</a></li>
+                        <li><a href="index.html#apply" class="hover:text-white transition-colors">Apply Now</a></li>
+                        <li><a href="index.html#faq" class="hover:text-white transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Contact Us</h4>
+                    <p class="text-sm">123 Travel Lane, Adventure City</p>
+                    <p class="text-sm">info@vervego.com</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-sm text-gray-500 mt-8 border-t border-gray-700 pt-8">
+                &copy; <span id="copyright-year"></span> VerveGo. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    
+
+    <script src="js/tours-data.js"></script>
+    
+    <script src="js/tour-filters.js"></script>
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Logic
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuOpenIcon = document.getElementById('menu-open-icon');
+        const menuCloseIcon = document.getElementById('menu-close-icon');
+
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                menuOpenIcon.classList.toggle('hidden');
+                menuCloseIcon.classList.toggle('hidden');
+            });
+        }
+
+        // Hide mobile menu on link click
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuOpenIcon.classList.remove('hidden');
+                menuCloseIcon.classList.add('hidden');
+            });
+        });
+
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

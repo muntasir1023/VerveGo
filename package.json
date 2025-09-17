@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "start": "node vervego-backend/server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.1",
+    "mongoose": "^8.17.1",
+    "ngrok": "^5.0.0-beta.2",
+    "nodemailer": "^7.0.5"
+  }
+}

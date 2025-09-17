@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerveGo - Empower Your Travel Business</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom styles to apply the chosen fonts */
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f8fafc; /* Off-white background */
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Custom class for the hero video background */
+        .hero-video-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+        /* Style for active nav link */
+        .nav-link-active {
+            color: #14b8a6; /* Teal accent color */
+            font-weight: 600;
+        }
+        /* Smooth transition for page sections */
+        .page-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .page-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Modal transition */
+        .modal, .modal-content {
+            transition: all 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300">
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="index.html" class="nav-link text-2xl font-bold text-white">
+                    Verve<span class="text-teal-500">Go</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <!-- Added a link to the tours page -->
+                    <a href="vervego_tours.html" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">Tours</a>
+                    <a href="#why-join" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">Why Join Us</a>
+                    <a href="#how-it-works" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">How It Works</a>
+                    <a href="#testimonials" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">Testimonials</a>
+                    <a href="#pricing" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">Pricing</a>
+                    <a href="#apply" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">Apply</a>
+                    <a href="#faq" class="nav-link text-gray-300 hover:text-teal-400 transition-colors">FAQ</a>
+                </nav>
+
+                <!-- CTA and Login Buttons -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="hotel_portal.html" class="text-gray-300 hover:text-white">Hotel Login</a>
+                    <a href="vervego_agent_portal.html" class="text-gray-300 hover:text-white">Agent Login</a>
+                    <a href="#apply" class="bg-teal-500 text-white font-semibold px-5 py-2 rounded-lg hover:bg-teal-600 transition-all">Apply Now</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-white focus:outline-none">
+                        <svg id="menu-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                        <svg id="menu-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900">
+            <nav class="flex flex-col items-center space-y-4 px-6 pt-2 pb-6">
+                <!-- Added a link to the tours page -->
+                <a href="vervego_tours.html" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">Tours</a>
+                <a href="#why-join" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">Why Join Us</a>
+                <a href="#how-it-works" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">How It Works</a>
+                <a href="#testimonials" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">Testimonials</a>
+                <a href="#pricing" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">Pricing</a>
+                <a href="#apply" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">Apply</a>
+                <a href="#faq" class="nav-link text-gray-300 hover:text-teal-400 transition-colors w-full text-center py-2">FAQ</a>
+                <div class="border-t border-gray-700 w-full my-4"></div>
+                <a href="hotel_portal.html" class="text-gray-300 hover:text-white w-full text-center py-2">Hotel Login</a>
+                <a href="vervego_agent_portal.html" class="text-gray-300 hover:text-white w-full text-center py-2">Agent Login</a>
+                <a href="#apply" class="bg-teal-500 text-white font-semibold px-5 py-3 rounded-lg hover:bg-teal-600 transition-all w-full text-center">Apply Now</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <!-- Home Section (Hero) -->
+        <section id="home" class="page-section relative h-[90vh] min-h-[600px] flex items-center justify-center text-center text-white overflow-hidden">
+            <div class="absolute inset-0 bg-gray-900 opacity-60 z-0"></div>
+            <!-- Using a high-quality image as a fallback for the video -->
+            <img src="https://c4.wallpaperflare.com/wallpaper/644/229/286/sea-the-sky-water-landscape-wallpaper-preview.jpg" alt="Beautiful travel destination" class="hero-video-bg" onerror="this.onerror=null;this.src='https://placehold.co/1920x1080/1a202c/e2e8f0?text=VerveGo+Travel';">
+            <div class="relative z-10 p-6">
+                <h1 class="text-4xl md:text-6xl font-bold font-poppins mb-4 leading-tight">
+                    Your Journey Begins <span class="text-teal-400">Here</span>.
+                </h1>
+                <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8 text-gray-200">
+                    Empower your travel business with seamless booking, client management, and a vibrant community.
+                </p>
+                <!-- Existing and new buttons are wrapped in a flex container for horizontal alignment -->
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+                    <!-- Button for agencies -->
+                    <div class="text-center">
+                        <a href="#apply" class="group relative inline-block text-lg font-semibold text-center text-white bg-teal-500 rounded-lg shadow-xl transition-transform transform hover:scale-105 w-full sm:w-auto">
+                            <div class="p-6">
+                                <div class="flex items-center justify-center mb-2">
+                                    <i data-lucide="briefcase" class="w-8 h-8 text-teal-200"></i>
+                                </div>
+                                <span class="block text-xl font-bold">For Agencies</span>
+                                <span class="block text-sm font-light text-gray-200 mt-1">Join Our Network</span>
+                            </div>
+                        </a>
+                        <p class="text-xs text-gray-300 mt-2">Click here to join our network of travel agents</p>
+                    </div>
+                    <!-- Button for travelers -->
+                    <div class="text-center">
+                        <a href="vervego_tours.html" class="group relative inline-block text-lg font-semibold text-center text-white bg-teal-500 rounded-lg shadow-xl transition-transform transform hover:scale-105 w-full sm:w-auto">
+                            <div class="p-6">
+                                <div class="flex items-center justify-center mb-2">
+                                    <i data-lucide="globe" class="w-8 h-8 text-teal-200"></i>
+                                </div>
+                                <span class="block text-xl font-bold">For Travelers</span>
+                                <span class="block text-sm font-light text-gray-200 mt-1">Explore Tours</span>
+                            </div>
+                        </a>
+                        <p class="text-xs text-gray-300 mt-2">Click to discover our amazing destinations</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Join Us Section -->
+        <section id="why-join" class="page-section py-20 px-6 bg-gray-100 text-gray-900">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold font-poppins text-center mb-12">Why Choose VerveGo?</h2>
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="flex flex-col items-center text-center p-8 rounded-xl shadow-lg bg-white">
+                        <div class="w-16 h-16 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center mb-4">
+                            <i data-lucide="award" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold font-poppins mb-2">Unbeatable Commissions</h3>
+                        <p class="text-gray-600">
+                            Earn top-tier commissions with our direct supplier partnerships. We believe in rewarding your hard work.
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center text-center p-8 rounded-xl shadow-lg bg-white">
+                        <div class="w-16 h-16 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center mb-4">
+                            <i data-lucide="monitor" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold font-poppins mb-2">Advanced Technology</h3>
+                        <p class="text-gray-600">
+                            Our intuitive platform provides everything you need, from booking tools to client management.
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center text-center p-8 rounded-xl shadow-lg bg-white">
+                        <div class="w-16 h-16 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center mb-4">
+                            <i data-lucide="users" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold font-poppins mb-2">Supportive Community</h3>
+                        <p class="text-gray-600">
+                            Connect with fellow agents, share insights, and get support 24/7 in our private community.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="page-section py-20 px-6 bg-gray-900 text-gray-300">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl font-bold font-poppins mb-12">How It Works</h2>
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="flex flex-col items-center p-8 rounded-xl bg-gray-800 border border-gray-700 shadow-xl">
+                        <div class="w-16 h-16 bg-teal-500 text-white rounded-full flex items-center justify-center mb-4 text-3xl font-bold">1</div>
+                        <h3 class="text-2xl font-semibold font-poppins mb-2">Apply Online</h3>
+                        <p class="text-gray-400">
+                            Complete our simple application to become a certified VerveGo agent.
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center p-8 rounded-xl bg-gray-800 border border-gray-700 shadow-xl">
+                        <div class="w-16 h-16 bg-teal-500 text-white rounded-full flex items-center justify-center mb-4 text-3xl font-bold">2</div>
+                        <h3 class="text-2xl font-semibold font-poppins mb-2">Get Trained</h3>
+                        <p class="text-gray-400">
+                            Access our comprehensive training modules and get certified to start booking.
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center p-8 rounded-xl bg-gray-800 border border-gray-700 shadow-xl">
+                        <div class="w-16 h-16 bg-teal-500 text-white rounded-full flex items-center justify-center mb-4 text-3xl font-bold">3</div>
+                        <h3 class="text-2xl font-semibold font-poppins mb-2">Start Booking</h3>
+                        <p class="text-gray-400">
+                            Use our platform to book travel for clients and earn commissions instantly.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="page-section py-20 px-6 bg-gray-100 text-gray-900">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl font-bold font-poppins mb-12">What Our Agents Say</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Testimonial 1 -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center">
+                        <img src="https://img.freepik.com/premium-photo/american-female-real-estate-agent-suit_1106493-267934.jpg" alt="Agent Emily R." class="w-20 h-20 rounded-full object-cover mb-4">
+                        <p class="text-gray-600 italic mb-4">"VerveGo has been a game-changer for my business. The technology is so easy to use, and the community support is amazing!"</p>
+                        <p class="font-semibold text-teal-600">- Emily R., Travel Agent</p>
+                    </div>
+                    <!-- Testimonial 2 -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center">
+                        <img src="https://img.freepik.com/premium-photo/american-female-real-estate-agent-suit_1106493-268147.jpg" alt="Agent Sarah L." class="w-20 h-20 rounded-full object-cover mb-4">
+                        <p class="text-gray-600 italic mb-4">"The commission rates are the best I've seen, and the platform makes managing my clients a breeze."</p>
+                        <p class="font-semibold text-teal-600">- Sarah L., Travel Expert</p>
+                    </div>
+                    <!-- Testimonial 3 (Image Updated) -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center">
+                        <img src="https://img.freepik.com/free-photo/young-successful-businessman-posing-with-crossed-arms_176420-1149.jpg?semt=ais_hybrid&w=740&q=80" alt="Agent Mark T." class="w-20 h-20 rounded-full object-cover mb-4">
+                        <p class="text-gray-600 italic mb-4">"I love the training and resources provided. I feel confident and supported every step of the way."</p>
+                        <p class="font-semibold text-teal-600">- Mark T., Independent Agent</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="page-section py-20 px-6 bg-gray-900 text-gray-300">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl font-bold font-poppins mb-12">Simple & Transparent Pricing</h2>
+                <div class="flex flex-col lg:flex-row justify-center items-center gap-8">
+                    <!-- Starter Plan -->
+                    <div class="flex-1 max-w-md w-full p-8 bg-gray-800 rounded-xl border border-gray-700 shadow-xl flex flex-col">
+                        <h3 class="text-2xl font-semibold font-poppins text-teal-400 mb-2">Starter</h3>
+                        <p class="text-sm text-gray-400">Perfect for new agents.</p>
+                        <div class="my-6">
+                            <span class="text-5xl font-bold font-poppins text-white">$35</span>
+                            <span class="text-gray-400">/mo</span>
+                        </div>
+                        <ul class="text-left space-y-3 mb-8 flex-grow">
+                            <li class="flex items-center">
+                                <i data-lucide="check" class="w-5 h-5 text-teal-500 mr-2"></i>
+                                <span>Access to booking platform</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i data-lucide="check" class="w-5 h-5 text-teal-500 mr-2"></i>
+                                <span>Standard commission rates</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i data-lucide="check" class="w-5 h-5 text-teal-500 mr-2"></i>
+                                <span>Client management tools</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i data-lucide="x" class="w-5 h-5 text-gray-500 mr-2"></i>
+                                <span>Dedicated support</span>
+                            </li>
+                        </ul>
+                        <a href="#apply" class="bg-gray-700 text-gray-200 font-semibold py-3 rounded-lg hover:bg-gray-600 transition-all">Get Started</a>
+                    </div>
+                    
+                    <!-- Pro Plan -->
+                    <div class="flex-1 max-w-md w-full p-10 bg-gray-800 rounded-xl border-4 border-teal-500 shadow-2xl flex flex-col scale-105">
+                        <span class="absolute top-0 right-0 mt-4 mr-4 bg-teal-500 text-white text-xs font-bold px-3 py-1 rounded-full">Most Popular</span>
+                        <h3 class="text-2xl font-semibold font-poppins text-teal-500 mb-2">Pro</h3>
+                        <p class="text-sm text-gray-400">For growing professionals.</p>
+                        <div class="my-6">
+                            <span class="text-5xl font-bold font-poppins text-white">$59</span>
+                            <span class="text-gray-400">/mo</span>
+                        </div>
+                        <ul class="text-left space-y-3 mb-8 flex-grow">
+                            <li class="flex items-center">
+                                <i data-lucide="check" class="w-5 h-5 text-teal-500 mr-2"></i>
+                                <span>Everything in Starter</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i data-lucide="check" class="w-5 h-5 text-teal-500 mr-2"></i>
+                                <span>Higher commission rates</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i data-lucide="check" class="w-5 h-5 text-teal-500 mr-2"></i>
+                                <span>Personalized marketing tools</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i data-lucide="check" class="w-5 h-5 text-teal-500 mr-2"></i>
+                                <span>Dedicated account manager</span>
+                            </li>
+                        </ul>
+                        <a href="#apply" class="bg-teal-500 text-white font-semibold py-3 rounded-lg hover:bg-teal-600 transition-all">Choose Plan</a>
+                    </div>
+
+                    <!-- Enterprise Plan -->
+                    <div class="flex-1 max-w-md w-full p-8 bg-gray-800 rounded-xl border border-gray-700 shadow-xl flex flex-col">
+                        <h3 class="text-2xl font-semibold font-poppins text-teal-400 mb-2">Enterprise</h3>
+                        <p class="text-sm text-gray-400">For large agencies.</p>
+                        <div class="my-6">
+                            <span class="text-5xl font-bold font-poppins text-white">Custom</span>
+                            <span class="text-gray-400"></span>
+                        </div>
+                        <ul class="text-left space-y-3 mb-8 flex-grow">
+                            <li class="flex items-center">
+                                <i data-lucide="check" class="w-5 h-5 text-teal-500 mr-2"></i>
+                                <span>Everything in Pro</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i data-lucide="check" class="w-5 h-5 text-teal-500 mr-2"></i>
+                                <span>Fully customized platform</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i data-lucide="check" class="w-5 h-5 text-teal-500 mr-2"></i>
+                                <span>API access & integrations</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i data-lucide="check" class="w-5 h-5 text-teal-500 mr-2"></i>
+                                <span>Priority 24/7 support</span>
+                            </li>
+                        </ul>
+                        <a href="#apply" class="bg-gray-700 text-gray-200 font-semibold py-3 rounded-lg hover:bg-gray-600 transition-all">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="page-section py-20 px-6 bg-gray-100 text-gray-900">
+            <div class="container mx-auto max-w-4xl">
+                <h2 class="text-4xl font-bold font-poppins text-center mb-12">Frequently Asked Questions</h2>
+                <div class="space-y-6">
+                    <!-- FAQ Item 1 -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <details class="group">
+                            <summary class="flex justify-between items-center cursor-pointer text-xl font-semibold font-poppins">
+                                <span>What are the requirements to join?</span>
+                                <i data-lucide="chevron-down" class="group-open:rotate-180 transition-transform"></i>
+                            </summary>
+                            <div class="mt-4 text-gray-600">
+                                You must be at least 18 years old and have a passion for travel. No prior experience is necessary; we provide all the training you need to succeed.
+                            </div>
+                        </details>
+                    </div>
+                    <!-- FAQ Item 2 -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <details class="group">
+                            <summary class="flex justify-between items-center cursor-pointer text-xl font-semibold font-poppins">
+                                <span>How do I get paid?</span>
+                                <i data-lucide="chevron-down" class="group-open:rotate-180 transition-transform"></i>
+                            </summary>
+                            <div class="mt-4 text-gray-600">
+                                Commissions are paid out monthly via direct deposit. We offer some of the highest commission rates in the industry.
+                            </div>
+                        </details>
+                    </div>
+                    <!-- FAQ Item 3 -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <details class="group">
+                            <summary class="flex justify-between items-center cursor-pointer text-xl font-semibold font-poppins">
+                                <span>Is there ongoing support?</span>
+                                <i data-lucide="chevron-down" class="group-open:rotate-180 transition-transform"></i>
+                            </summary>
+                            <div class="mt-4 text-gray-600">
+                                Absolutely! Our dedicated support team is available 24/7, and you'll have access to our private community of agents for peer-to-peer support.
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Apply Now Section -->
+        <section id="apply" class="page-section py-20 px-6 bg-gray-900 text-white text-center">
+            <div class="container mx-auto max-w-3xl">
+                <h2 class="text-4xl font-bold font-poppins mb-4">Ready to Start?</h2>
+                <p class="text-lg mb-8 max-w-2xl mx-auto text-gray-300">
+                    Join the VerveGo family and turn your passion for travel into a rewarding career.
+                </p>
+
+                <!-- Tabs for Application Forms -->
+                <div class="flex justify-center mb-6">
+                    <button id="show-agency-form" class="bg-teal-500 text-white font-semibold px-6 py-3 rounded-l-lg focus:outline-none">For Agencies</button>
+                    <button id="show-hotel-form" class="bg-gray-700 text-gray-300 font-semibold px-6 py-3 rounded-r-lg focus:outline-none">For Hotels</button>
+                </div>
+
+                <!-- Agency Application Form Box -->
+                <div id="agency-application-form-box" class="bg-gray-800 rounded-xl shadow-2xl p-8 md:p-12 text-left mb-8">
+                    <h3 class="text-2xl font-semibold font-poppins text-teal-400 mb-6 text-center">Agency Application</h3>
+                    <form id="agency-application-form" class="space-y-6">
+                        <div>
+                            <label for="agencyName" class="block text-sm font-medium text-gray-400">Agency Name</label>
+                            <input type="text" id="agencyName" name="agencyName" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="e.g., Global Adventures Inc." required>
+                        </div>
+                        <div>
+                            <label for="contactName" class="block text-sm font-medium text-gray-400">Contact Person Name</label>
+                            <input type="text" id="contactName" name="contactName" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="e.g., Jane Doe" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-400">Email Address</label>
+                            <input type="email" id="email" name="email" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="e.g., jane.doe@example.com" required>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-400">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="e.g., (123) 456-7890">
+                        </div>
+                        <div>
+                            <label for="numAgents" class="block text-sm font-medium text-gray-400">Number of Agents</label>
+                            <select id="numAgents" name="numAgents" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" required>
+                                <option value="" disabled selected>Select number of agents</option>
+                                <option value="1-5">1-5</option>
+                                <option value="6-20">6-20</option>
+                                <option value="21-50">21-50</option>
+                                <option value="50+">50+</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-400">Tell Us About Your Agency</label>
+                            <textarea id="message" name="message" rows="4" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="Describe your agency, your goals, and why you'd like to join VerveGo."></textarea>
+                        </div>
+                        <div class="flex justify-center mt-8">
+                            <button type="submit" class="bg-teal-500 text-white font-semibold px-8 py-4 rounded-full text-lg hover:bg-teal-600 transition-all shadow-lg w-full sm:w-auto">
+                                Apply Now
+                            </button>
+                        </div>
+                    </form>
+                    <!-- Submission Message -->
+                    <div id="submission-message" class="hidden mt-6 bg-teal-500 text-white p-4 rounded-lg text-center font-semibold">
+                        Thank you for your application! We will be in touch shortly.
+                    </div>
+                </div>
+
+                <!-- Hotel Application Form Box -->
+                <div id="hotel-application-form-box" class="hidden bg-gray-800 rounded-xl shadow-2xl p-8 md:p-12 text-left mb-8">
+                    <h3 class="text-2xl font-semibold font-poppins text-teal-400 mb-6 text-center">Hotel Application</h3>
+                    <form id="hotel-application-form" class="space-y-6">
+                        <div>
+                            <label for="hotelName" class="block text-sm font-medium text-gray-400">Hotel Name</label>
+                            <input type="text" id="hotelName" name="hotelName" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="e.g., The Grand VerveGo" required>
+                        </div>
+                        <div>
+                            <label for="hotelContactName" class="block text-sm font-medium text-gray-400">Contact Person Name</label>
+                            <input type="text" id="hotelContactName" name="hotelContactName" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="e.g., John Smith" required>
+                        </div>
+                        <div>
+                            <label for="hotelEmail" class="block text-sm font-medium text-gray-400">Email Address</label>
+                            <input type="email" id="hotelEmail" name="hotelEmail" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="e.g., john.smith@example.com" required>
+                        </div>
+                        <div>
+                            <label for="hotelPhone" class="block text-sm font-medium text-gray-400">Phone Number</label>
+                            <input type="tel" id="hotelPhone" name="hotelPhone" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="e.g., (123) 456-7890">
+                        </div>
+                        <div>
+                            <label for="hotelAddress" class="block text-sm font-medium text-gray-400">Hotel Address</label>
+                            <input type="text" id="hotelAddress" name="hotelAddress" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="e.g., 123 Luxury Ave, Paradise City" required>
+                        </div>
+                        <div>
+                            <label for="hotelMessage" class="block text-sm font-medium text-gray-400">Tell Us About Your Hotel</label>
+                            <textarea id="hotelMessage" name="hotelMessage" rows="4" class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-lg shadow-sm text-white px-4 py-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500" placeholder="Describe your hotel, its amenities, and why you'd like to partner with VerveGo."></textarea>
+                        </div>
+                        <div class="flex justify-center mt-8">
+                            <button type="submit" class="bg-teal-500 text-white font-semibold px-8 py-4 rounded-full text-lg hover:bg-teal-600 transition-all shadow-lg w-full sm:w-auto">
+                                Apply Now
+                            </button>
+                        </div>
+                    </form>
+                    <!-- Submission Message -->
+                    <div id="hotel-submission-message" class="hidden mt-6 bg-teal-500 text-white p-4 rounded-lg text-center font-semibold">
+                        Thank you for your application! We will be in touch shortly.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Verve<span class="text-teal-500">Go</span></h3>
+                    <p class="text-sm">Empowering travel agents, one booking at a time.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="vervego_tours.html" class="hover:text-white transition-colors">Tours</a></li>
+                        <li><a href="#why-join" class="hover:text-white transition-colors">Why Join Us</a></li>
+                        <li><a href="#testimonials" class="hover:text-white transition-colors">Testimonials</a></li>
+                        <li><a href="#pricing" class="hover:text-white transition-colors">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Agent Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="vervego_agent_portal.html" class="hover:text-white transition-colors">Agent Login</a></li>
+                        <li><a href="#apply" class="hover:text-white transition-colors">Apply Now</a></li>
+                        <li><a href="#faq" class="hover:text-white transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Contact Us</h4>
+                    <p class="text-sm">123 Travel Lane, Adventure City</p>
+                    <p class="text-sm">info@vervego.com</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-sm text-gray-500 mt-8 border-t border-gray-700 pt-8">
+                &copy; <span id="copyright-year"></span> VerveGo. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cookie Banner -->
+    <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 transform translate-y-full transition-transform duration-500 ease-in-out z-[100]">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+            <p class="text-sm mb-4 md:mb-0">
+                This website uses cookies to ensure you get the best experience. By continuing to use our site, you agree to our <a href="#" id="learn-more-link" class="text-teal-400 hover:underline">Privacy Policy</a>.
+            </p>
+            <div class="flex space-x-2">
+                <button id="accept-cookies-button" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition-all text-sm">
+                    Got it!
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center p-4 z-[1000] opacity-0 pointer-events-none transition-all duration-300">
+        <div class="modal-content bg-white p-8 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative scale-95 transition-all duration-300">
+            <button id="close-modal-button" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <h2 class="text-3xl font-bold font-poppins text-gray-900 mb-4">Privacy Policy</h2>
+            <p class="text-gray-700 mb-4">
+                Your privacy is important to us. This policy explains how we collect, use, and protect your data.
+            </p>
+            <p class="text-gray-700 mb-4">
+                We use cookies to enhance your experience on our site, personalize content, and analyze our traffic. We do not sell or share your personal information with third parties without your explicit consent.
+            </p>
+            <h3 class="text-2xl font-semibold font-poppins text-gray-900 mb-2">Data We Collect</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Personal identification information (Name, email address, phone number, etc.)</li>
+                <li>Travel preferences and booking history</li>
+                <li>Website usage data via cookies and analytics</li>
+            </ul>
+            <h3 class="text-2xl font-semibold font-poppins text-gray-900 mb-2">How We Use Your Data</h3>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>To process your bookings and provide customer support</li>
+                <li>To personalize your experience and show relevant travel offers</li>
+                <li>To improve our website and services</li>
+            </ul>
+            <h3 class="text-2xl font-semibold font-poppins text-gray-900 mb-2">Your Rights</h3>
+            <p class="text-gray-700 mb-4">
+                You have the right to access, correct, or delete your personal data. You can also opt-out of receiving marketing communications at any time.
+            </p>
+            <button id="close-modal-button-2" class="mt-4 bg-teal-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-teal-600 transition-all">
+                Close
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Logic
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuOpenIcon = document.getElementById('menu-open-icon');
+        const menuCloseIcon = document.getElementById('menu-close-icon');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuOpenIcon.classList.toggle('hidden');
+            menuCloseIcon.classList.toggle('hidden');
+        });
+
+        // Hide mobile menu on link click
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuOpenIcon.classList.remove('hidden');
+                menuCloseIcon.classList.add('hidden');
+            });
+        });
+
+        // Add 'is-visible' class to sections on scroll
+        const pageSections = document.querySelectorAll('.page-section');
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // observer.unobserve(entry.target); // Uncomment to trigger animation only once
+                }
+            });
+        }, options);
+
+        pageSections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Cookie Banner Logic
+        const cookieBanner = document.getElementById('cookie-banner');
+        const acceptCookiesButton = document.getElementById('accept-cookies-button');
+        const hasConsent = localStorage.getItem('verveGoCookieConsent');
+
+        if (!hasConsent) {
+            setTimeout(() => {
+                cookieBanner.style.transform = 'translateY(0)';
+            }, 1500);
+        }
+
+        acceptCookiesButton.addEventListener('click', () => {
+            cookieBanner.style.transform = 'translateY(100%)';
+            localStorage.setItem('verveGoCookieConsent', 'true');
+        });
+
+        // Privacy Modal Logic
+        const privacyModal = document.getElementById('privacy-modal');
+        const learnMoreLink = document.getElementById('learn-more-link');
+        const closeModalButton = document.getElementById('close-modal-button');
+        const closeModalButton2 = document.getElementById('close-modal-button-2');
+
+        function openPrivacyModal() {
+            privacyModal.classList.remove('opacity-0', 'pointer-events-none');
+            privacyModal.querySelector('.modal-content').classList.remove('scale-95');
+        }
+        function closePrivacyModal() {
+            privacyModal.classList.add('opacity-0', 'pointer-events-none');
+            privacyModal.querySelector('.modal-content').classList.add('scale-95');
+        }
+
+        learnMoreLink.addEventListener('click', (e) => { e.preventDefault(); openPrivacyModal(); });
+        closeModalButton.addEventListener('click', closePrivacyModal);
+        closeModalButton2.addEventListener('click', closePrivacyModal);
+        privacyModal.addEventListener('click', (e) => { if (e.target === privacyModal) closePrivacyModal(); });
+        
+        // Application Form Logic
+        const agencyForm = document.getElementById('agency-application-form');
+        const hotelForm = document.getElementById('hotel-application-form');
+        const agencyFormBox = document.getElementById('agency-application-form-box');
+        const hotelFormBox = document.getElementById('hotel-application-form-box');
+        const showAgencyFormButton = document.getElementById('show-agency-form');
+        const showHotelFormButton = document.getElementById('show-hotel-form');
+        const agencySubmissionMessage = document.getElementById('submission-message');
+        const hotelSubmissionMessage = document.getElementById('hotel-submission-message');
+
+        showAgencyFormButton.addEventListener('click', () => {
+            agencyFormBox.classList.remove('hidden');
+            hotelFormBox.classList.add('hidden');
+            showAgencyFormButton.classList.add('bg-teal-500', 'text-white');
+            showAgencyFormButton.classList.remove('bg-gray-700', 'text-gray-300');
+            showHotelFormButton.classList.add('bg-gray-700', 'text-gray-300');
+            showHotelFormButton.classList.remove('bg-teal-500', 'text-white');
+        });
+
+        showHotelFormButton.addEventListener('click', () => {
+            hotelFormBox.classList.remove('hidden');
+            agencyFormBox.classList.add('hidden');
+            showHotelFormButton.classList.add('bg-teal-500', 'text-white');
+            showHotelFormButton.classList.remove('bg-gray-700', 'text-gray-300');
+            showAgencyFormButton.classList.add('bg-gray-700', 'text-gray-300');
+            showAgencyFormButton.classList.remove('bg-teal-500', 'text-white');
+        });
+
+        if (agencyForm) {
+            agencyForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(agencyForm);
+                const data = Object.fromEntries(formData.entries());
+
+                try {
+                    const response = await fetch('http://localhost:5000/api/apply', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        agencyForm.classList.add('hidden');
+                        agencySubmissionMessage.classList.remove('hidden');
+                        setTimeout(() => {
+                            agencyForm.reset();
+                            agencyForm.classList.remove('hidden');
+                            agencySubmissionMessage.classList.add('hidden');
+                        }, 5000);
+                    } else {
+                        alert('There was an error submitting your application. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Error submitting application:', error);
+                    alert('There was an error submitting your application. Please try again.');
+                }
+            });
+        }
+
+        if (hotelForm) {
+            hotelForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(hotelForm);
+                const data = Object.fromEntries(formData.entries());
+
+                try {
+                    const response = await fetch('http://localhost:5000/api/hotel/apply', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        hotelForm.classList.add('hidden');
+                        hotelSubmissionMessage.classList.remove('hidden');
+                        setTimeout(() => {
+                            hotelForm.reset();
+                            hotelForm.classList.remove('hidden');
+                            hotelSubmissionMessage.classList.add('hidden');
+                        }, 5000);
+                    } else {
+                        alert('There was an error submitting your application. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Error submitting application:', error);
+                    alert('There was an error submitting your application. Please try again.');
+                }
+            });
+        }
+    </script>
+    <script src="/js/tour-details-enhanced.js"></script>
+    <script>
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
